@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" fill="none" stroke="#C8A84E" stroke-width="1.5" opacity="0.35">
+  <!-- Concentric circles -->
+  <circle cx="400" cy="400" r="380"/>
+  <circle cx="400" cy="400" r="300"/>
+  <circle cx="400" cy="400" r="220"/>
+  <circle cx="400" cy="400" r="150"/>
+  <circle cx="400" cy="400" r="80"/>
+
+  <!-- 8 lotus petals -->
+  <path d="M400 20Q470 200 400 380Q330 200 400 20Z"/>
+  <path d="M400 780Q470 600 400 420Q330 600 400 780Z"/>
+  <path d="M20 400Q200 330 380 400Q200 470 20 400Z"/>
+  <path d="M780 400Q600 330 420 400Q600 470 780 400Z"/>
+  <path d="M132 132Q250 220 280 280Q220 250 132 132Z"/>
+  <path d="M668 668Q550 580 520 520Q580 550 668 668Z"/>
+  <path d="M668 132Q580 250 520 280Q550 220 668 132Z"/>
+  <path d="M132 668Q220 550 280 520Q250 580 132 668Z"/>
+
+  <!-- Inner lotus petals (smaller) -->
+  <path d="M400 180Q440 290 400 380Q360 290 400 180Z"/>
+  <path d="M400 620Q440 510 400 420Q360 510 400 620Z"/>
+  <path d="M180 400Q290 360 380 400Q290 440 180 400Z"/>
+  <path d="M620 400Q510 360 420 400Q510 440 620 400Z"/>
+
+  <!-- Lotus base -->
+  <path d="M220 600Q310 540 400 560Q490 540 580 600Q490 570 400 600Q310 570 220 600Z"/>
+  <path d="M260 630Q330 585 400 600Q470 585 540 630Q470 605 400 630Q330 605 260 630Z"/>
+  <path d="M300 655Q350 625 400 638Q450 625 500 655Q450 638 400 658Q350 638 300 655Z"/>
+
+  <!-- Decorative circles at petal tips -->
+  <circle cx="400" cy="400" r="10" fill="#C8A84E" fill-opacity="0.08" stroke="none"/>
+  <circle cx="400" cy="90" r="6"/>
+  <circle cx="400" cy="710" r="6"/>
+  <circle cx="90" cy="400" r="6"/>
+  <circle cx="710" cy="400" r="6"/>
+  <circle cx="190" cy="190" r="5"/>
+  <circle cx="610" cy="610" r="5"/>
+  <circle cx="610" cy="190" r="5"/>
+  <circle cx="190" cy="610" r="5"/>
+
+  <!-- Radial lines -->
+  <line x1="400" y1="20" x2="400" y2="780" stroke-dasharray="4 8"/>
+  <line x1="20" y1="400" x2="780" y2="400" stroke-dasharray="4 8"/>
+  <line x1="132" y1="132" x2="668" y2="668" stroke-dasharray="4 8"/>
+  <line x1="668" y1="132" x2="132" y2="668" stroke-dasharray="4 8"/>
+</svg>

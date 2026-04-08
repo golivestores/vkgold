@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none" stroke="#C8A84E" stroke-width="1.2" opacity="0.3">
+  <!-- Quarter mandala for corner use -->
+  <circle cx="0" cy="0" r="380"/>
+  <circle cx="0" cy="0" r="300"/>
+  <circle cx="0" cy="0" r="220"/>
+  <circle cx="0" cy="0" r="150"/>
+  <circle cx="0" cy="0" r="80"/>
+
+  <!-- Petal arcs -->
+  <path d="M0 10Q35 150 0 300Q-35 150 0 10Z"/>
+  <path d="M10 0Q150 35 300 0Q150-35 10 0Z"/>
+  <path d="M8 8Q120 80 140 140Q80 120 8 8Z"/>
+
+  <!-- Lotus curves -->
+  <path d="M0 250Q80 200 160 220Q80 240 0 250Z"/>
+  <path d="M250 0Q200 80 220 160Q240 80 250 0Z"/>
+
+  <!-- Dots -->
+  <circle cx="0" cy="0" r="6"/>
+  <circle cx="0" cy="100" r="4"/>
+  <circle cx="100" cy="0" r="4"/>
+  <circle cx="70" cy="70" r="3"/>
+
+  <!-- Radial lines -->
+  <line x1="0" y1="0" x2="0" y2="390" stroke-dasharray="4 8"/>
+  <line x1="0" y1="0" x2="390" y2="0" stroke-dasharray="4 8"/>
+  <line x1="0" y1="0" x2="280" y2="280" stroke-dasharray="4 8"/>
+</svg>

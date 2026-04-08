@@ -54,9 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initBannerCTA();
     initFooter();
     initWhoWeServe();
+    initOurCraft();
     initDesignCap();
     initMenu();
-    initLangToggle();
     ScrollTrigger.refresh();
   });
 });
@@ -511,6 +511,59 @@ function initWhoWeServe() {
   }
 }
 
+/* ─── OUR CRAFT — Horizontal Timeline (pin + translate) ─── */
+function initOurCraft() {
+  const section = document.querySelector('.our-craft');
+  if (!section) return;
+
+  const heading = section.querySelector('.oc-heading');
+  const pin = section.querySelector('.oc-pin');
+  const strip = section.querySelector('.oc-strip');
+  const dots = section.querySelectorAll('.oc-dot');
+
+  // Heading fade in
+  if (heading) {
+    gsap.set(heading, { opacity: 0, y: 40 });
+    gsap.to(heading, {
+      opacity: 1, y: 0, duration: 1.2, ease: 'power3.out',
+      scrollTrigger: { trigger: heading, start: 'top 85%' }
+    });
+  }
+
+  if (!pin || !strip) return;
+
+  // Calculate how far to scroll horizontally
+  const getScrollAmount = () => strip.scrollWidth - pin.offsetWidth;
+
+  // Main horizontal scroll with pin
+  const tl = gsap.to(strip, {
+    x: () => -getScrollAmount(),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: pin,
+      start: 'top 10%',
+      end: () => '+=' + getScrollAmount(),
+      pin: true,
+      scrub: 1,
+      invalidateOnRefresh: true
+    }
+  });
+
+  // Dots pop in as they enter viewport
+  dots.forEach(dot => {
+    gsap.set(dot, { scale: 0 });
+    gsap.to(dot, {
+      scale: 1, duration: 0.4, ease: 'back.out(2)',
+      scrollTrigger: {
+        trigger: dot,
+        containerAnimation: tl,
+        start: 'left 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+  });
+}
+
 /* ─── DESIGN CAPABILITY — Team + Stats + Marquees ─── */
 function initDesignCap() {
   const section = document.querySelector('.design-cap');
@@ -561,75 +614,34 @@ function initDesignCap() {
   }
 }
 
-/* ─── LANGUAGE TOGGLE — EN / 中 ─── */
+/* ─── i18n content dictionary (English only) ─── */
 const i18n = {
-  cta_button: { en: 'Get in touch', cn: '联系我们' },
-  hero_heading: { en: 'Acoustic elegance for spaces that inspire.', cn: '为每一个空间注入声学之美。' },
-  hero_title: { en: 'Acoustic specialists', cn: '声学装饰专家' },
-  hero_text: { en: 'We design, engineer and deliver integrated acoustic solutions for ambitious architectural projects. Every surface reflects our commitment to clarity, craft, and performance.', cn: '我们为高标准建筑项目提供从设计到落地的一站式声学解决方案。每一个界面都体现我们对品质、工艺与性能的极致追求。' },
-  hero_scroll: { en: 'Scroll to explore', cn: '向下滚动探索' },
-  about_title: { en: 'About NAAYA', cn: '关于 NAAYA' },
-  about_heading: { en: 'We bring spaces to life through sound and design. Trusted by architects who demand precision, beauty, and acoustic excellence.', cn: '以声学赋予空间生命，以设计成就听觉美感。深受追求精准、美学与卓越声学表现的建筑师信赖。' },
-  about_button: { en: 'Who we are', cn: '了解我们' },
-  product_title: { en: 'Product collection', cn: '产品系列' },
-  product_button: { en: 'Product overview', cn: '查看产品' },
-  product_1: { en: 'Grooved Panel', cn: '槽孔吸音板' },
-  product_2: { en: 'Uniseam Ceiling', cn: '无缝声学天花' },
-  product_3: { en: 'Micro Panel', cn: '微穿孔吸音板' },
-  product_4: { en: 'Perforated Panel', cn: '穿孔吸音板' },
-  factory_title: { en: 'Factory', cn: '工厂' },
-  factory_heading: { en: 'Where precision engineering meets acoustic innovation.', cn: '精密工程与声学创新的交汇之地。' },
-  factory_label: { en: 'Location', cn: '地址' },
-  factory_address: { en: 'Guangzhou, China', cn: '中国广州' },
-  factory_button: { en: 'Our factory', cn: '参观工厂' },
-  projects_title: { en: 'Featured projects', cn: '精选项目' },
-  projects_heading: { en: 'Each project tells its own story of acoustic design and spatial harmony.', cn: '每一个项目都诉说着声学设计与空间和谐的独特故事。' },
-  projects_button: { en: 'View projects', cn: '查看项目' },
-  wws_title: { en: 'Who we serve', cn: '我们的客户' },
-  wws_heading: { en: 'From concept to completion, we partner with every voice in the built environment.', cn: '从概念到落地，我们与建筑环境中的每一个角色携手共创。' },
-  wws_1_title: { en: 'Property Owners', cn: '业主方' },
-  wws_1_desc: { en: 'Visionaries who commission exceptional spaces', cn: '委托打造卓越空间的远见者' },
-  wws_2_title: { en: 'Architects', cn: '建筑设计师' },
-  wws_2_desc: { en: 'Design partners who shape the acoustic blueprint', cn: '塑造声学蓝图的设计伙伴' },
-  wws_3_title: { en: 'MEP Consultants', cn: '机电顾问' },
-  wws_3_desc: { en: 'Engineering allies ensuring seamless integration', cn: '确保无缝集成的工程盟友' },
-  wws_4_title: { en: 'Acoustic Consultants', cn: '声学顾问' },
-  wws_4_desc: { en: 'Specialists who define the sound of a space', cn: '定义空间之声的专业力量' },
-  wws_5_title: { en: 'Interior Designers', cn: '室内设计师' },
-  wws_5_desc: { en: 'Creatives who demand beauty and performance', cn: '追求美感与性能并重的创意伙伴' },
-  wws_6_title: { en: 'General Contractors', cn: '建筑工程公司' },
-  wws_6_desc: { en: 'Builders who deliver complex projects on time', cn: '按时交付复杂项目的建设者' },
-  wws_7_title: { en: 'Fit-out Companies', cn: '装饰装修公司' },
-  wws_7_desc: { en: 'Specialists in precision acoustic installation', cn: '精密声学安装的专业团队' },
-  wws_8_title: { en: 'Acoustic Distributors', cn: '声学材料商' },
-  wws_8_desc: { en: 'Partners extending our global reach', cn: '拓展全球市场的合作伙伴' },
-  reviews_title: { en: 'Client stories', cn: '客户故事' },
-  cta_title: { en: 'Where sound meets design', cn: '声学与设计的交汇' },
-  cta_heading: { en: 'Every great space begins with listening', cn: '每一个伟大的空间都始于倾听' },
-  cta_button_1: { en: 'Our approach', cn: '我们的方法' },
-  dc_title: { en: 'Design capability', cn: '设计实力' },
-  dc_heading: { en: 'A team built on decades of acoustic expertise, powered by world-class tools.', cn: '十余年声学经验沉淀，世界级工具赋能的专业团队。' },
+  cta_button: { en: 'Chat on WhatsApp' },
+  hero_heading: { en: 'Hand-painted Thangka masterpieces by Regong lineage artists. Each piece carries centuries of Buddhist tradition and the purest gold.' },
+  hero_title: { en: 'Sacred Art, Crafted in Gold' },
+  hero_text: { en: 'We design, craft and deliver museum-quality Thangka paintings and pure gold cultural products. Every piece reflects centuries of Buddhist tradition, handmade by master artists from Regong, Qinghai.' },
+  about_title: { en: 'About VKGold' },
+  about_heading: { en: 'Where ancient Buddhist artistry meets cutting-edge precious metal technology. From hand-painted Thangka scrolls by Regong lineage masters to silver foil crafted with PVD sputtering precision — born in Shenzhen, trusted across Southeast Asia.' },
+  about_button: { en: 'Our Story' },
+  product_title: { en: 'Our Collections' },
+  product_button: { en: 'View All Products' },
+  product_1: { en: 'Nine Bodhisattva Thangka' },
+  product_2: { en: 'Wisdom & Success' },
+  product_3: { en: 'Wealth & Prosperity' },
+  product_4: { en: 'Love & Protection' },
+  factory_title: { en: 'Handcrafted, Never Mass-Produced' },
+  factory_heading: { en: 'Every piece is shaped entirely by hand — from sacred preparation rituals to grinding natural mineral pigments, laying 24K gold leaf stroke by stroke, and the revered eye-opening ceremony. Created by Regong masters Quzhi and Zhaxijiancuo, UNESCO Intangible Heritage lineage holders.' },
+  factory_address: { en: 'Regong, Qinghai — UNESCO Intangible Heritage' },
+  factory_button: { en: 'See the Process' },
+  projects_title: { en: 'The Nine Bodhisattvas' },
+  projects_heading: { en: 'Nine masterpieces by UNESCO-listed Regong masters Quzhi and Zhaxijiancuo. Each sacred scroll painting — or Thangka — carries a unique blessing of compassion, wisdom and protection. A rare union of art, devotion and heritage.' },
+  projects_button: { en: 'Explore Full Collection' },
+  wws_title: { en: 'Why VKGold' },
+  wws_heading: { en: 'Sacred art deserves the highest standard — from the artist\'s hand to your home.' },
+  reviews_title: { en: 'What Our Collectors Say' },
+  cta_title: { en: 'For Business' },
+  cta_heading: { en: 'Bespoke Cultural Gifts for Your Brand' },
+  cta_button_1: { en: 'View Custom Projects' },
+  dc_title: { en: 'Our Capability' },
+  dc_heading: { en: 'A world-class factory with 60+ craftsmen, trusted by China\'s top brands and banks.' },
 };
-
-let currentLang = 'en';
-
-function initLangToggle() {
-  const btn = document.querySelector('.lang-toggle');
-  if (!btn) return;
-
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    currentLang = currentLang === 'en' ? 'cn' : 'en';
-    btn.textContent = currentLang === 'en' ? 'EN' : '中';
-    applyLang();
-  });
-}
-
-function applyLang() {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (i18n[key] && i18n[key][currentLang]) {
-      el.textContent = i18n[key][currentLang];
-    }
-  });
-}
