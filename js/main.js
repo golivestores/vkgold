@@ -381,7 +381,7 @@ function initBannerCTA() {
   const section = document.querySelector('.banner-cta');
   if (!section || isMobile()) return;
 
-  const svgPaths = section.querySelectorAll('.banner-cta-svg path');
+  const svgPaths = section.querySelectorAll('.banner-cta-svg .draw-path');
   if (svgPaths.length === 0) return;
 
   gsap.timeline({
