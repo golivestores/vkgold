@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thangka Singapore — Category Research Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700;800&family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --surface-alt: #f5f1ec;
+  --border: #d4c9b8;
+  --border-light: #e8e0d4;
+  --text: #2c1810;
+  --text-secondary: #5c4a3a;
+  --text-muted: #8a7a6a;
+  --primary: #b8860b;
+  --primary-light: #fdf6e3;
+  --primary-alpha: rgba(184, 134, 11, 0.05);
+  --success: #2d6a4f;
+  --success-bg: #f0fdf4;
+  --warning: #b45309;
+  --warning-bg: #fffbeb;
+  --danger: #9b2c2c;
+  --danger-bg: #fef2f2;
+  --info: #1e6091;
+  --max-width: 1080px;
+  --section-gap: 64px;
+  --card-padding: 28px;
+  --card-radius: 10px;
+  --content-padding: 28px;
+  --font-sans: 'DM Sans', -apple-system, sans-serif;
+  --font-display: 'Crimson Pro', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --chart-1: #b8860b;
+  --chart-2: #2d6a4f;
+  --chart-3: #9b2c2c;
+  --chart-4: #1e6091;
+  --chart-5: #6d28d9;
+  --chart-6: #c2410c;
+  --chart-7: #0e7490;
+  --chart-8: #4a5568;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-sans); background: var(--bg); color: var(--text); line-height: 1.6; }
+h1, h2, h3 { font-family: var(--font-display); }
+h2 { font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+h3 { font-size: 20px; font-weight: 700; color: var(--text); margin: 28px 0 14px; }
+h4 { font-size: 14px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin: 24px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border-light); }
+
+/* Cover */
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 60px var(--content-padding);
+  background: linear-gradient(160deg, #1a0f08 0%, #2c1810 30%, #4a2c1a 60%, #b8860b 100%);
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 70% 50%, rgba(184,134,11,0.15) 0%, transparent 50%),
+              radial-gradient(ellipse at 30% 70%, rgba(184,134,11,0.08) 0%, transparent 40%);
+  animation: shimmer 12s ease-in-out infinite alternate;
+}
+@keyframes shimmer {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-3%, 2%); }
+}
+.cover * { position: relative; z-index: 1; }
+.cover-icon { font-size: 64px; margin-bottom: 32px; filter: drop-shadow(0 4px 20px rgba(184,134,11,0.4)); }
+.cover-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(184,134,11,0.8);
+  margin-bottom: 24px;
+}
+.cover h1 {
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+}
+.cover h1 span { color: #d4a745; }
+.cover-sub {
+  font-size: 18px;
+  color: rgba(255,255,255,0.55);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 48px;
+}
+.cover-meta {
+  display: flex;
+  gap: 32px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 500;
+}
+.cover-meta strong { color: rgba(255,255,255,0.7); }
+
+/* Design System Components */
+.report-container { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--content-padding); }
+.nav { background: rgba(250,248,245,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 var(--content-padding); position: sticky; top: 0; z-index: 100; overflow-x: auto; white-space: nowrap; }
+.nav-inner { max-width: var(--max-width); margin: 0 auto; display: flex; gap: 0; }
+.nav a { display: inline-block; padding: 14px 20px; font-size: 12px; font-weight: 600; color: var(--text-muted); text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.nav a:hover { color: var(--primary); border-bottom-color: var(--primary); }
+.section { margin-top: var(--section-gap); scroll-margin-top: 64px; }
+.section-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 28px; }
+.section-num { font-family: var(--font-display); font-size: 32px; font-weight: 400; color: var(--border); line-height: 1; flex-shrink: 0; }
+
+.section-banner { margin: var(--section-gap) calc(-50vw + 50%); padding: 56px calc(50vw - 50%); color: white; position: relative; overflow: hidden; }
+.section-banner h2 { color: white; }
+.section-banner p { font-size: 15px; color: rgba(255,255,255,0.6); max-width: 540px; line-height: 1.7; }
+
+.hero-stat-grid { display: grid; gap: 0; margin: 28px 0; }
+.hero-stat { display: grid; grid-template-columns: minmax(180px, 1fr) 2fr; gap: 24px; align-items: baseline; padding: 24px 0; border-bottom: 1px solid var(--border-light); }
+.hero-stat:last-child { border-bottom: none; }
+.hero-stat-number { font-size: 48px; font-weight: 800; line-height: 1.1; letter-spacing: -1px; color: var(--primary); }
+.hero-stat-number .unit { font-size: 28px; font-weight: 700; color: var(--text); }
+.hero-stat-label { font-size: 20px; font-weight: 700; line-height: 1.2; }
+.hero-stat-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin-top: 6px; }
+
+.pill-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 100px; font-size: 12px; font-weight: 600; border: 1px solid var(--border); background: var(--surface); color: var(--text); }
+.pill-blue { border-color: #bfdbfe; background: #eff6ff; color: #1d4ed8; }
+.pill-green { border-color: #bbf7d0; background: #f0fdf4; color: #15803d; }
+.pill-amber { border-color: #fde68a; background: #fffbeb; color: #92400e; }
+.pill-red { border-color: #fecaca; background: #fef2f2; color: #991b1b; }
+.pill-purple { border-color: #ddd6fe; background: #f5f3ff; color: #5b21b6; }
+.pill-teal { border-color: #99f6e4; background: #f0fdfa; color: #115e59; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); padding: var(--card-padding); margin-bottom: 24px; }
+.card-title { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+.analysis-text { line-height: 1.85; font-size: 14.5px; color: var(--text); }
+.analysis-text p { margin-bottom: 14px; }
+.analysis-text ul, .analysis-text ol { padding-left: 22px; margin: 10px 0 16px; }
+.analysis-text li { margin-bottom: 8px; }
+.analysis-text strong { color: var(--text); }
+
+.metric-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin: 24px 0; }
+.metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 24px; text-align: center; }
+.metric-label { font-size: 10px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
+.metric-value { font-size: 28px; font-weight: 800; margin-top: 8px; color: var(--text); }
+.metric-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.metric-value.primary { color: var(--primary); }
+.metric-value.success { color: var(--success); }
+.metric-value.warning { color: var(--warning); }
+.metric-value.danger { color: var(--danger); }
+
+.table-wrap { overflow-x: auto; margin: 24px 0; border-radius: var(--card-radius); border: 1px solid var(--border); background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+thead { background: var(--surface-alt); }
+th { padding: 10px 16px; text-align: left; font-weight: 600; color: var(--text-muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 2px solid var(--border); }
+td { padding: 11px 16px; border-bottom: 1px solid var(--border-light); color: var(--text); vertical-align: top; }
+tr:hover td { background: var(--primary-alpha); }
+tbody tr:last-child td { border-bottom: none; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.mono { font-family: var(--font-mono); font-size: 12px; }
+
+.alert { border-radius: var(--card-radius); padding: 20px 24px; margin-bottom: 20px; display: flex; gap: 14px; align-items: flex-start; }
+.alert-success { background: var(--success-bg); border: 1px solid #bbf7d0; }
+.alert-warning { background: var(--warning-bg); border: 1px solid #fde68a; }
+.alert-danger { background: var(--danger-bg); border: 1px solid #fecaca; }
+.alert-info { background: #f0f9ff; border: 1px solid #bae6fd; }
+.alert-icon { font-size: 18px; flex-shrink: 0; line-height: 1.5; }
+.alert-content { flex: 1; }
+.alert-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+.alert-text { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+
+.callout { padding: 20px 24px; border-radius: 0; margin: 24px 0; font-size: 14px; line-height: 1.75; border-left: 2px solid; }
+.callout-info { border-color: var(--info); color: var(--text); }
+.callout-warn { border-color: var(--warning); color: var(--text); }
+.callout-success { border-color: var(--success); color: var(--text); }
+.callout-insight { border-color: #7e22ce; color: var(--text); }
+
+.data-note { background: var(--surface-alt); border-left: 2px solid var(--primary); padding: 12px 18px; font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; }
+
+.action-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 22px 24px; margin-bottom: 14px; border-left: 3px solid; }
+.action-card.p0 { border-left-color: var(--danger); }
+.action-card.p1 { border-left-color: var(--warning); }
+.action-card.p2 { border-left-color: var(--primary); }
+.action-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+.action-desc { font-size: 13.5px; color: var(--text-secondary); line-height: 1.7; }
+.action-impact { margin-top: 10px; font-size: 12px; }
+.action-impact strong { color: var(--text); }
+
+.badge { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.3px; }
+.badge-success { background: var(--success-bg); color: var(--success); border: 1px solid #bbf7d0; }
+.badge-warning { background: var(--warning-bg); color: var(--warning); border: 1px solid #fde68a; }
+.badge-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid #fecaca; }
+.badge-info { background: var(--primary-light); color: var(--primary); border: 1px solid var(--border); }
+.badge-neutral { background: var(--surface-alt); color: var(--text-secondary); border: 1px solid var(--border); }
+
+.comp-high { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 600; background: var(--danger-bg); color: var(--danger); }
+.comp-med { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 600; background: var(--warning-bg); color: var(--warning); }
+.comp-low { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 600; background: var(--success-bg); color: var(--success); }
+
+.timeline { position: relative; padding-left: 32px; margin: 24px 0; }
+.timeline::before { content: ''; position: absolute; left: 9px; top: 0; bottom: 0; width: 2px; background: var(--border); border-radius: 1px; }
+.timeline-item { position: relative; padding-bottom: 28px; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot { position: absolute; left: -27px; top: 5px; width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--bg); }
+.timeline-dot.red { background: var(--danger); box-shadow: 0 0 0 2px var(--danger); }
+.timeline-dot.amber { background: var(--warning); box-shadow: 0 0 0 2px var(--warning); }
+.timeline-dot.green { background: var(--success); box-shadow: 0 0 0 2px var(--success); }
+.timeline-dot.blue { background: var(--primary); box-shadow: 0 0 0 2px var(--primary); }
+.timeline-date { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 2px; }
+.timeline-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.timeline-desc { font-size: 13.5px; color: var(--text-secondary); line-height: 1.7; }
+
+.chart-container { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 24px; margin: 24px 0; max-height: 420px; }
+.chart-container canvas { max-height: 360px; }
+.chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 24px 0; }
+
+.risk-opp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+.risk-box { background: var(--danger-bg); border: 1px solid #fecaca; border-radius: var(--card-radius); padding: 22px; }
+.opp-box { background: var(--success-bg); border: 1px solid #bbf7d0; border-radius: var(--card-radius); padding: 22px; }
+.risk-box h4 { color: var(--danger); font-size: 13px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; border: none; padding: 0; }
+.opp-box h4 { color: var(--success); font-size: 13px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; border: none; padding: 0; }
+.risk-box ul, .opp-box ul { padding-left: 20px; font-size: 13.5px; }
+.risk-box li, .opp-box li { margin-bottom: 8px; line-height: 1.6; }
+
+.matrix-container { margin: 28px auto; max-width: 660px; }
+.matrix-wrapper { display: grid; grid-template-columns: 28px 1fr; gap: 8px; align-items: center; }
+.matrix-label-y { writing-mode: vertical-rl; text-orientation: mixed; font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.matrix-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 2px; background: var(--border); border-radius: var(--card-radius); overflow: hidden; }
+.matrix-cell { padding: 24px 22px; background: var(--surface); }
+.matrix-cell h4 { margin: 0 0 8px; font-size: 14px; color: var(--primary); border: none; padding: 0; text-transform: none; letter-spacing: 0; }
+.matrix-cell p { font-size: 13px; margin: 0; color: var(--text-secondary); }
+.matrix-label-x { text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 8px; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.data-source { font-size: 12px; color: var(--text-muted); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-light); }
+
+.img-full { width: 100%; max-height: 520px; object-fit: contain; border-radius: var(--card-radius); margin: 16px 0 24px; border: 1px solid var(--border); background: var(--surface-alt); }
+
+.stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 24px 0; }
+.stat-card { background: var(--surface-alt); border-radius: var(--card-radius); padding: 24px; text-align: center; }
+.stat-card .stat-value { font-size: 32px; font-weight: 800; color: var(--primary); }
+.stat-card .stat-label { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
+
+.tag { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; margin: 2px 4px 2px 0; }
+.tag-purple { background: #ede9fe; color: #6d28d9; }
+.tag-blue { background: #dbeafe; color: #1d4ed8; }
+.tag-green { background: #d1fae5; color: #065f46; }
+.tag-orange { background: #ffedd5; color: #c2410c; }
+.tag-red { background: #fee2e2; color: #b91c1c; }
+.tag-teal { background: #ccfbf1; color: #115e59; }
+
+.footer { margin-top: 80px; padding: 48px var(--content-padding); background: var(--surface-alt); }
+.footer-inner { max-width: var(--max-width); margin: 0 auto; }
+.footer-brand-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--primary); }
+.footer-divider { height: 1px; background: var(--border); margin: 20px 0; }
+.footer-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); flex-wrap: wrap; gap: 12px; }
+
+@media (max-width: 768px) {
+  .cover h1 { font-size: 32px; }
+  .hero-stat { grid-template-columns: 1fr; }
+  .chart-row { grid-template-columns: 1fr; }
+  .risk-opp-grid { grid-template-columns: 1fr; }
+  .matrix-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     COVER
+     ============================================================ -->
+<div class="cover">
+  <div class="cover-icon">🪷</div>
+  <div class="cover-label">Category Research Report</div>
+  <h1>Thangka <span>唐卡</span><br>Singapore Market Intelligence</h1>
+  <p class="cover-sub">热贡大师手造唐卡 + 祈福引流品，面向新加坡市场的品类调研——关键词、竞品、广告生态、进入策略全景分析</p>
+  <div class="cover-meta">
+    <span><strong>Client</strong>&ensp;Gift One (bonegift.com)</span>
+    <span><strong>Market</strong>&ensp;Singapore</span>
+    <span><strong>Date</strong>&ensp;April 7-8, 2026</span>
+    <span><strong>Prepared by</strong>&ensp;Satori</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#exec">Executive Summary</a>
+    <a href="#keywords">Keywords</a>
+    <a href="#competitors">Competitors</a>
+    <a href="#google-ads">Google Ads</a>
+    <a href="#fb-ads">Facebook Ads</a>
+    <a href="#strategy">Strategy</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#kpi">KPIs</a>
+  </div>
+</nav>
+
+<div class="report-container">
+
+<!-- ============================================================
+     1. EXECUTIVE SUMMARY
+     ============================================================ -->
+<section class="section" id="exec">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <div>
+      <h2>Executive Summary</h2>
+      <p style="color:var(--text-muted); font-size:14px;">核心结论与市场判断</p>
+    </div>
+  </div>
+
+  <div class="alert alert-success">
+    <span class="alert-icon">&#x2714;</span>
+    <div class="alert-content">
+      <div class="alert-title">结论：新加坡唐卡市场是一个小而确定的机会</div>
+      <div class="alert-text">搜索需求真实存在（核心词 260/月，Google Trends 全球兴趣 SG 排名 #4），付费广告竞争极低（SG SERP 仅 2-3 家非本地 Search Ads + 平台 Shopping Ads），本地 4 个竞品（Qi Xi 重度 FB 投放但无独立站，其余 3 家数字化极弱）。低成本验证 + 快速占位的窗口清晰。</div>
+    </div>
+  </div>
+
+  <div class="hero-stat-grid">
+    <div class="hero-stat">
+      <div class="hero-stat-number">~760<span class="unit">/mo</span></div>
+      <div>
+        <div class="hero-stat-label">新加坡月搜索总量</div>
+        <div class="hero-stat-desc">覆盖 thangka、tibetan art、buddhist gifts 等 30 个关键词。核心词 "thangka" 单独贡献 260/月。</div>
+      </div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-number" style="color:var(--success);">$0.13<span class="unit">-$1.07</span></div>
+      <div>
+        <div class="hero-stat-label">CPC 区间（Google Ads）</div>
+        <div class="hero-stat-desc">头词 "thangka" CPC $0.32-$1.07，"thangka painting" 仅 $0.13-$0.44。几乎无竞价压力。</div>
+      </div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-number" style="color:var(--danger);">4</div>
+      <div>
+        <div class="hero-stat-label">新加坡本地竞品</div>
+        <div class="hero-stat-desc">Dzambhala（实体店，5.0&#9733; 64 reviews，线上 0 产品）/ DTDL Dharma Shop（寺院小店）/ Qi Xi Global（Woodlands 实体馆，FB 投放）/ Alvin 说唐卡（KOL，6K followers）。<strong>均无独立电商站。</strong></div>
+      </div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-number" style="color:var(--chart-5);">2-3</div>
+      <div>
+        <div class="hero-stat-label">SG SERP 活跃 Search 广告主</div>
+        <div class="hero-stat-desc">thangkamarket.com + artoftibet.com（+ Potala Gate 偶现）。Shopping Ads 有平台卖家（Shopee/Shein），无独立品牌站。竞争极低。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-insight">
+    <strong>战略判断：</strong>这不是一个"大市场等你来抢"的故事，而是一个"小池塘里没有鱼"的机会。关键在于：<br>
+    1) 用低客单引流品（$19.99 手机贴）跑通 SG 物流 + 支付链路<br>
+    2) 用高客单唐卡（$1,000+）通过 WhatsApp 咨询转化，吃掉 Dzambhala 和 Qi Xi 没覆盖的线上需求<br>
+    3) SEO 先行建立 "thangka singapore" 内容权威，为后期付费投放铺垫
+  </div>
+</section>
+
+<!-- ============================================================
+     2. KEYWORD UNIVERSE
+     ============================================================ -->
+<section class="section" id="keywords">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <div>
+      <h2>Keyword Universe</h2>
+      <p style="color:var(--text-muted); font-size:14px;">新加坡唐卡搜索生态全景</p>
+    </div>
+  </div>
+
+  <h3>Core Thangka Keywords</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Keyword</th>
+          <th class="text-right">Avg Monthly Searches</th>
+          <th class="text-center">Competition</th>
+          <th class="text-right">Low CPC</th>
+          <th class="text-right">High CPC</th>
+          <th>Tier</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>thangka</strong></td><td class="text-right mono">260</td><td class="text-center"><span class="comp-high">HIGH</span></td><td class="text-right mono">$0.32</td><td class="text-right mono">$1.07</td><td><span class="tag tag-orange">T1 Head</span></td></tr>
+        <tr><td><strong>thangka painting</strong></td><td class="text-right mono">140</td><td class="text-center"><span class="comp-high">HIGH</span></td><td class="text-right mono">$0.17</td><td class="text-right mono">$0.44</td><td><span class="tag tag-orange">T1 Head</span></td></tr>
+        <tr><td><strong>tibetan thangka</strong></td><td class="text-right mono">70</td><td class="text-center"><span class="comp-high">HIGH</span></td><td class="text-right mono">$0.20</td><td class="text-right mono">$0.64</td><td><span class="tag tag-blue">T2 Mid</span></td></tr>
+        <tr><td>thangka art</td><td class="text-right mono">20</td><td class="text-center"><span class="comp-high">HIGH</span></td><td class="text-right mono">—</td><td class="text-right mono">—</td><td><span class="tag tag-blue">T2 Mid</span></td></tr>
+        <tr><td>tibetan buddhist art</td><td class="text-right mono">20</td><td class="text-center"><span class="comp-med">MED</span></td><td class="text-right mono">—</td><td class="text-right mono">—</td><td><span class="tag tag-blue">T2 Mid</span></td></tr>
+        <tr><td>tibetan painting</td><td class="text-right mono">20</td><td class="text-center"><span class="comp-high">HIGH</span></td><td class="text-right mono">—</td><td class="text-right mono">—</td><td><span class="tag tag-blue">T2 Mid</span></td></tr>
+        <tr><td>buy thangka</td><td class="text-right mono">10</td><td class="text-center"><span class="comp-high">HIGH</span></td><td class="text-right mono">—</td><td class="text-right mono">—</td><td><span class="tag tag-green">T3 Long-tail</span></td></tr>
+        <tr><td>thangka for sale</td><td class="text-right mono">10</td><td class="text-center"><span class="comp-high">HIGH</span></td><td class="text-right mono">—</td><td class="text-right mono">—</td><td><span class="tag tag-green">T3 Long-tail</span></td></tr>
+        <tr><td>handmade thangka</td><td class="text-right mono">10</td><td class="text-center"><span class="comp-low">LOW</span></td><td class="text-right mono">—</td><td class="text-right mono">—</td><td><span class="tag tag-green">T3 Long-tail</span></td></tr>
+        <tr><td>gold thangka</td><td class="text-right mono">10</td><td class="text-center"><span class="comp-low">LOW</span></td><td class="text-right mono">—</td><td class="text-right mono">—</td><td><span class="tag tag-green">T3 Long-tail</span></td></tr>
+        <tr><td>buddhist painting</td><td class="text-right mono">10</td><td class="text-center"><span class="comp-low">LOW</span></td><td class="text-right mono">—</td><td class="text-right mono">—</td><td><span class="tag tag-green">T3 Long-tail</span></td></tr>
+        <tr><td style="color:var(--text-muted);">thangka online / wall art / decoration / regong thangka</td><td class="text-right mono" style="color:var(--text-muted);">0</td><td class="text-center">—</td><td class="text-right mono">—</td><td class="text-right mono">—</td><td><span class="tag tag-purple">No Demand</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Spiritual & Blessing Keywords (引流品相关)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Keyword</th>
+          <th class="text-right">Avg Monthly Searches</th>
+          <th class="text-center">Competition</th>
+          <th class="text-right">Avg CPC</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>spiritual gifts</strong></td><td class="text-right mono">320</td><td class="text-center"><span class="comp-low">LOW</span></td><td class="text-right mono">$0.02</td><td>最大量级词，但泛化严重，购买意图低</td></tr>
+        <tr><td><strong>wealth god</strong></td><td class="text-right mono">50</td><td class="text-center"><span class="comp-low">LOW</span></td><td class="text-right mono">$0.05</td><td>CNY 高峰 (Jan-Feb: 70-140/mo)</td></tr>
+        <tr><td>gold phone sticker</td><td class="text-right mono">10</td><td class="text-center"><span class="comp-high">HIGH</span></td><td class="text-right mono">—</td><td>精准但量极小</td></tr>
+        <tr><td>blessing sticker</td><td class="text-right mono">10</td><td class="text-center"><span class="comp-high">HIGH</span></td><td class="text-right mono">$0.56</td><td></td></tr>
+        <tr><td>feng shui gifts</td><td class="text-right mono">10</td><td class="text-center"><span class="comp-low">LOW</span></td><td class="text-right mono">$0.90</td><td>可覆盖手机贴 + 小配件</td></tr>
+        <tr><td>buddha wall art</td><td class="text-right mono">10</td><td class="text-center"><span class="comp-high">HIGH</span></td><td class="text-right mono">$0.64</td><td>唐卡交叉词</td></tr>
+        <tr><td>buddhist home decor</td><td class="text-right mono">10</td><td class="text-center"><span class="comp-high">HIGH</span></td><td class="text-right mono">$0.09</td><td></td></tr>
+        <tr><td>buddhist accessories</td><td class="text-right mono">10</td><td class="text-center"><span class="comp-high">HIGH</span></td><td class="text-right mono">$0.33</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="data-source">Data Source: Google Ads Keyword Planner via MCP, geo=Singapore (9062), language=English (1000), April 7, 2026</p>
+
+  <h3>Seasonality Patterns</h3>
+  <div class="chart-row">
+    <div class="chart-container">
+      <canvas id="seasonChart"></canvas>
+    </div>
+    <div class="chart-container">
+      <canvas id="wealthGodChart"></canvas>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <strong>季节性洞察：</strong> "thangka" 搜索量在 3-4 月达到峰值（320-390/mo），与新加坡 Vesak Day（卫塞节）前的佛教节庆需求高度吻合。"wealth god" 在 1-2 月（华人新年）飙升至 70-140/mo。建站和 SEO 建设应在节庆前 2-3 个月启动。
+  </div>
+
+  <h3>Google Trends 实测</h3>
+
+  <div class="card">
+    <div class="card-title">SG 12 个月：thangka vs tibetan art vs buddhist gifts</div>
+    <img class="img-full" src="trends-thangka-sg-12m.png" alt="Google Trends - thangka SG 12m comparison">
+    <div class="analysis-text"><p>新加坡本地搜索量极低，大部分时间 Google Trends 显示 "not enough data"。仅 "thangka" 偶有脉冲式搜索——印证了 KP 数据：市场真实存在但体量极小。</p></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">SG 5 年趋势："thangka"</div>
+    <img class="img-full" src="trends-thangka-sg-5y.png" alt="Google Trends - thangka SG 5 years">
+    <div class="analysis-text"><p>5 年视角下 "thangka" 在新加坡的搜索呈离散脉冲式分布，近期出现一次显著 spike。Related queries: "thangka painting" (+40%), "tibetan thangka" (+40%) — 与 KP 数据的前三关键词完全吻合。</p></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Global：thangka 全球兴趣分布</div>
+    <img class="img-full" src="trends-thangka-global.png" alt="Google Trends - thangka global">
+    <div class="analysis-text"><p><strong>新加坡全球排名 #4</strong>（仅次于不丹、尼泊尔、蒙古）——一个 600 万人口的城市国家排在第 4，说明新加坡对唐卡的人均搜索兴趣远超其他大市场。这进一步验证了 SG 作为首发市场的选择。</p></div>
+  </div>
+  <p class="data-source">Data Source: Google Trends via Chrome DevTools, April 8, 2026</p>
+</section>
+
+<!-- ============================================================
+     3. COMPETITIVE LANDSCAPE
+     ============================================================ -->
+<section class="section" id="competitors">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <div>
+      <h2>Competitive Landscape</h2>
+      <p style="color:var(--text-muted); font-size:14px;">谁在卖唐卡，怎么卖，卖给谁</p>
+    </div>
+  </div>
+
+  <h3>Singapore Local Players</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Competitor</th>
+          <th>Type</th>
+          <th>Platform</th>
+          <th>Price Range</th>
+          <th>Online E-comm</th>
+          <th>Paid Ads</th>
+          <th>Threat Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Dzambhala @ My Buddhist Place</strong><br><span style="font-size:11px;color:var(--text-muted);">180 Bencoolen St, SG &bull; 5.0&#9733; 64 Google Reviews</span></td>
+          <td>Physical Gallery</td>
+          <td>WooCommerce (brochure only)</td>
+          <td>Premium (est. $500-$5,000+)</td>
+          <td><span class="badge badge-danger">0 products online</span></td>
+          <td><span class="badge badge-neutral">None</span></td>
+          <td><span class="comp-med">MEDIUM</span></td>
+        </tr>
+        <tr>
+          <td><strong>DTDL Dharma Shop</strong><br><span style="font-size:11px;color:var(--text-muted);">137 Sims Ave, SG</span></td>
+          <td>Temple Shop</td>
+          <td>Lightspeed / Ecwid</td>
+          <td>S$15 - S$1,000+</td>
+          <td><span class="badge badge-warning">Active but basic</span></td>
+          <td><span class="badge badge-neutral">None</span></td>
+          <td><span class="comp-low">LOW</span></td>
+        </tr>
+        <tr>
+          <td><strong>Qi Xi Global 起玺国际藏传文物馆</strong><br><span style="font-size:11px;color:var(--text-muted);">Woodlands, SG &bull; ~47 条活跃 FB 广告</span></td>
+          <td>Physical Gallery</td>
+          <td>Facebook Page only</td>
+          <td>SGD 88+ (anchor price)</td>
+          <td><span class="badge badge-danger">No website</span></td>
+          <td><span class="badge badge-danger">FB Ads 重度投放 (CN)</span></td>
+          <td><span class="comp-high">HIGH</span></td>
+        </tr>
+        <tr>
+          <td><strong>Alvin 说唐卡</strong><br><span style="font-size:11px;color:var(--text-muted);">SG-based KOL &bull; 6K+ FB followers &bull; 5.0&#9733; 24 Reviews</span></td>
+          <td>Social Seller / KOL</td>
+          <td>Facebook Page</td>
+          <td>Not listed</td>
+          <td><span class="badge badge-danger">No website</span></td>
+          <td><span class="badge badge-warning">FB Video Ads (CN)</span></td>
+          <td><span class="comp-med">MEDIUM</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Global Online Competitors (Ship to SG)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Competitor</th>
+          <th>Base</th>
+          <th>Platform</th>
+          <th>SKUs</th>
+          <th>Price (USD)</th>
+          <th>USP</th>
+          <th>Paid Ads</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>The Thangka</strong><br><span style="font-size:11px;color:var(--text-muted);">thethangka.com</span></td>
+          <td>Nepal (Boudhanath)</td>
+          <td>Shopify</td>
+          <td class="mono">~861</td>
+          <td class="mono">$218-$3,500</td>
+          <td>最大 catalog，6语言，免运</td>
+          <td><span class="badge badge-neutral">None</span></td>
+        </tr>
+        <tr>
+          <td><strong>Art of Tibet</strong><br><span style="font-size:11px;color:var(--text-muted);">artoftibet.com</span></td>
+          <td>Nepal (Sweden ops)</td>
+          <td>Shopify</td>
+          <td class="mono">~300-500</td>
+          <td class="mono">$50-$2,000+</td>
+          <td>Est. 1995, 441 Trustpilot reviews (4.3/5)</td>
+          <td><span class="badge badge-info">Search Ads (SG)</span></td>
+        </tr>
+        <tr>
+          <td><strong>Lucky Thanka</strong><br><span style="font-size:11px;color:var(--text-muted);">luckythanka.com</span></td>
+          <td>Nepal (Kathmandu)</td>
+          <td>Shopify</td>
+          <td class="mono">500+</td>
+          <td class="mono">$15-$6,740</td>
+          <td>最宽品类（唐卡+颂钵+首饰+旗帜）</td>
+          <td><span class="badge badge-neutral">None</span></td>
+        </tr>
+        <tr>
+          <td><strong>Zang Yuan 臧缘</strong><br><span style="font-size:11px;color:var(--text-muted);">thangka.com.my</span></td>
+          <td>Malaysia</td>
+          <td>WooCommerce</td>
+          <td class="mono">~46</td>
+          <td class="mono">$700-$5,100</td>
+          <td>国家级非遗大师，中文市场唯一</td>
+          <td><span class="badge badge-neutral">None</span></td>
+        </tr>
+        <tr>
+          <td><strong>LunziArt</strong><br><span style="font-size:11px;color:var(--text-muted);">lunziart.com</span></td>
+          <td>Nepal</td>
+          <td>Shopify</td>
+          <td class="mono">Unknown</td>
+          <td class="mono">Low-mid</td>
+          <td>唐卡吊坠/可佩戴唐卡，24K 金</td>
+          <td><span class="badge badge-info">FB Ads (EN, SG)</span></td>
+        </tr>
+        <tr>
+          <td><strong>Thangka Market</strong><br><span style="font-size:11px;color:var(--text-muted);">thangkamarket.com</span></td>
+          <td>Unknown</td>
+          <td>Unknown</td>
+          <td class="mono">Unknown</td>
+          <td class="mono">Unknown</td>
+          <td>SG SERP 最活跃 Search 广告主（3/5 queries 出现）</td>
+          <td><span class="badge badge-info">Search Ads (SG)</span></td>
+        </tr>
+        <tr>
+          <td><strong>Potala Gate</strong><br><span style="font-size:11px;color:var(--text-muted);">potalagate.com</span></td>
+          <td>Unknown</td>
+          <td>Unknown</td>
+          <td class="mono">Unknown</td>
+          <td class="mono">Unknown</td>
+          <td>SG SERP 高意图词出现（1/5 queries）</td>
+          <td><span class="badge badge-info">Search Ads (SG)</span></td>
+        </tr>
+        <tr>
+          <td><strong>Etsy Marketplace</strong><br><span style="font-size:11px;color:var(--text-muted);">etsy.com/market/thangka</span></td>
+          <td>Global</td>
+          <td>Etsy</td>
+          <td class="mono">5,600+</td>
+          <td class="mono">$30-$5,000+</td>
+          <td>聚合平台，最大选择量</td>
+          <td><span class="badge badge-neutral">Organic</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="data-source">Data Source: WebSearch + WebFetch competitor site analysis, April 7, 2026</p>
+
+  <h3>Competitor Site Screenshots</h3>
+  <div class="data-note">主要竞品首页截图，展示各站定位、视觉风格和产品陈列差异。</div>
+
+  <div class="img-grid">
+    <div>
+      <img style="width:100%;border-radius:var(--card-radius);border:1px solid var(--border);" src="competitor-thethangka.png" alt="The Thangka homepage">
+      <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;"><strong>The Thangka</strong> — 最大 catalog (861 SKU)，7% 折扣弹窗，免运</div>
+    </div>
+    <div>
+      <img style="width:100%;border-radius:var(--card-radius);border:1px solid var(--border);" src="competitor-artoftibet.png" alt="Art of Tibet homepage">
+      <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;"><strong>Art of Tibet</strong> — 60% off Spring Sale，10% 首单弹窗</div>
+    </div>
+  </div>
+  <div class="img-grid">
+    <div>
+      <img style="width:100%;border-radius:var(--card-radius);border:1px solid var(--border);" src="competitor-luckythanka.png" alt="Lucky Thanka homepage">
+      <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;"><strong>Lucky Thanka</strong> — Since 1983，最宽品类（唐卡+颂钵+首饰）</div>
+    </div>
+    <div>
+      <img style="width:100%;border-radius:var(--card-radius);border:1px solid var(--border);" src="competitor-dzambhala.png" alt="Dzambhala homepage">
+      <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;"><strong>Dzambhala</strong> — SG 实体店，180 Bencoolen St</div>
+    </div>
+  </div>
+  <div style="max-width:50%;margin:0 auto;">
+    <img style="width:100%;border-radius:var(--card-radius);border:1px solid var(--border);" src="competitor-zangyuan.png" alt="Zang Yuan homepage">
+    <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;"><strong>Zang Yuan 臧缘</strong> — 中文站，MY/SG/TW 授权经销</div>
+  </div>
+
+  <h3>Competitive Positioning Matrix</h3>
+  <div class="matrix-container">
+    <div class="matrix-wrapper">
+      <div class="matrix-label-y">Price &rarr; High</div>
+      <div>
+        <div class="matrix-grid">
+          <div class="matrix-cell">
+            <h4>High Price + Offline</h4>
+            <p><strong>Dzambhala</strong> (SG gallery, $500-5K+, mineral paint + 24K gold, 1-year production)<br><strong>Qi Xi Global</strong> (SG Woodlands, FB only)</p>
+          </div>
+          <div class="matrix-cell" style="background:var(--primary-light);">
+            <h4>High Price + Online &larr; GAP</h4>
+            <p><strong>Gift One 的机会位</strong>：热贡大师手造 $1,000+，Shopify 全功能电商，WhatsApp 咨询转化，中英双语。当前无人占据。</p>
+          </div>
+          <div class="matrix-cell">
+            <h4>Low Price + Offline</h4>
+            <p><strong>DTDL Dharma Shop</strong> (SG temple, basic e-comm)<br>Shopee/Lazada 零散卖家</p>
+          </div>
+          <div class="matrix-cell">
+            <h4>Low Price + Online</h4>
+            <p><strong>Lucky Thanka</strong> ($15-$6,740, Nepal)<br><strong>Art of Tibet</strong> ($50-$2K)<br><strong>Etsy</strong> (prints from $30)<br><strong>LunziArt</strong> (pendants)</p>
+          </div>
+        </div>
+        <div class="matrix-label-x">Offline &larr;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&rarr; Online</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. GOOGLE ADS ECOSYSTEM
+     ============================================================ -->
+<section class="section" id="google-ads">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <div>
+      <h2>Google Ads Competitive Ecosystem</h2>
+      <p style="color:var(--text-muted); font-size:14px;">Transparency Center + SG SERP 实测</p>
+    </div>
+  </div>
+
+  <div class="alert alert-warning">
+    <span class="alert-icon">&#x1F6A9;</span>
+    <div class="alert-content">
+      <div class="alert-title">Google Ads 竞争极低，但并非完全空白</div>
+      <div class="alert-text">Transparency Center 仅发现 1 个唐卡广告主（Pink Lotus, UK）。但 <strong>新加坡实际 SERP 显示有 2-3 家在投 Search Ads + 多家 Shopping Ads</strong>——说明存在小规模投放但未被 Transparency Center 完整捕捉。整体竞争仍极低。</div>
+    </div>
+  </div>
+
+  <h3>Google Ads Transparency Center 数据</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Search Query</th>
+          <th class="text-center">Ads Found</th>
+          <th>Advertiser</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>thangka</td><td class="text-center mono">1</td><td>Pink Lotus Thangka Ltd (UK)</td><td>1 条文字广告："UK Tibetan Buddhist Shop"，杂货店性质</td></tr>
+        <tr><td>tibetan art</td><td class="text-center mono">1</td><td>Tibetan Institute of Performing Arts (India)</td><td>表演艺术机构，非唐卡卖家</td></tr>
+        <tr><td>buddhist painting</td><td class="text-center mono">0</td><td>—</td><td></td></tr>
+        <tr><td>thethangka.com (domain)</td><td class="text-center mono">0</td><td>—</td><td>市场领导者不投 Google Ads</td></tr>
+        <tr><td>luckythanka.com (domain)</td><td class="text-center mono">0</td><td>—</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="data-source">Data Source: Google Ads Transparency Center, queried April 7, 2026</p>
+
+  <h3>Singapore SERP 实况（SG IP 实测）</h3>
+  <div class="data-note">以下截图来自新加坡本地 IP 真实搜索结果，反映用户实际看到的广告生态。</div>
+
+  <div class="card">
+    <div class="card-title">SERP 1: "thangka singapore"</div>
+    <img class="img-full" src="serp-thangka-singapore.png" alt="Google SERP - thangka singapore">
+    <div class="analysis-text">
+      <ul>
+        <li><strong>Search Ads (2)：</strong>thangkamarket.com（"buddhist thangka | Shop Our Collection"）+ artoftibet.com（"Tibetan Thangka Painting | Authentic & Genuine"，打 60% off）</li>
+        <li><strong>Shopping Ads：</strong>无</li>
+        <li><strong>Local Panel：</strong>Dzambhala @ My Place — <strong>5.0 星 / 64 Google Reviews</strong>，本地信任信号极强</li>
+        <li><strong>Organic：</strong>Talent Arts Frame Makers（裱框服务）、Dzambhala</li>
+        <li><strong>洞察：</strong>Dzambhala 虽然线上 0 产品，但 Google Business Profile 做得好（5.0 满分 + 64 reviews），占据本地搜索右侧面板。Gift One 建站后必须同步做 GBP。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">SERP 2: "buy thangka online singapore"</div>
+    <img class="img-full" src="serp-buy-thangka-online-singapore.png" alt="Google SERP - buy thangka online singapore">
+    <div class="analysis-text">
+      <ul>
+        <li><strong>Shopping Ads (6+)：</strong>Buddha Stones ($250.99, Shopee) / Thangka Decorative Mandala ($58, Shopee) / Indian Buddha UV Light ($22.54, Shein) / Tibetan Thangka ($236.91, HomeLoft SG) / Side Buddha Hanging Scroll ($519.89, Discovery Japan) / Buddha Stones Thousand-handed ($157.99, Shopee)</li>
+        <li><strong>Search Ads (3)：</strong>thangkamarket.com + artoftibet.com + <strong>Potala Gate</strong> (potalagate.com，新发现竞品)</li>
+        <li><strong>洞察：</strong>高购买意图词触发了完整的 Shopping + Search 广告生态。Shopping 广告以平台卖家为主（Shopee, Shein），无独立品牌站。<strong>这意味着 Gift One 上 Google Shopping 后可以用高品质产品图 + 品牌溢价直接与这些平台货竞争。</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">SERP 3: "tibetan art singapore"</div>
+    <img class="img-full" src="serp-tibetan-art-singapore.png" alt="Google SERP - tibetan art singapore">
+    <div class="analysis-text">
+      <ul>
+        <li><strong>Shopping Ads (6+)：</strong>Buddha Stones ($250.99) / Tibetan Thangka ($236.91, HomeLoft SG) / <strong>HOSEIKI EXCLUSIVE ($388, Shopee)</strong> / Side Buddha Hanging ($519.46) / Buddha Stones Embroidery White Tara ($52.99 ×2)</li>
+        <li><strong>Search Ads (1)：</strong>thangkamarket.com</li>
+        <li><strong>洞察：</strong>HOSEIKI 在 Shopee 卖 $388 唐卡 — 说明 Shopee SG 有中高客单唐卡的购买力。Gift One 手机贴 + 中端唐卡可以同步上 Shopee。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">SERP 4: "buddhist gifts singapore"</div>
+    <img class="img-full" src="serp-buddhist-gifts-singapore.png" alt="Google SERP - buddhist gifts singapore">
+    <div class="analysis-text">
+      <ul>
+        <li><strong>Shopping Ads (6+)：</strong>品类更泛 — Buddha Stones Thangka ($250.99) / Custom Logo Retro Tea Cup Gift Box ($64.29, 以泰礼品) / Sacred Ebony Artisan Tibetan ($50.96, Karmabless) / Vanda Orchid Bronze Frame ($318, risis.com) / Dopamine Arts Brass ($114, Hikari Spirits) / Om Mani ($44.99)</li>
+        <li><strong>洞察：</strong>这个词更泛但量更大。Shopping 结果中唐卡只占一部分，更多是茶具、铜器、檀木制品。手机贴（$19.99 祈福品）可以在这个词上用 Shopping 抢占低价位。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">SERP 5: "唐卡 新加坡"（中文）</div>
+    <img class="img-full" src="serp-tangka-xinjiaobo.png" alt="Google SERP - 唐卡 新加坡">
+    <div class="analysis-text">
+      <ul>
+        <li><strong>Organic #1：</strong>Alvin 说唐卡（Facebook, <strong>6K+ followers, 5.0 星 24 reviews</strong>）— 黑金时轮金刚坛城，风水/财运叙事</li>
+        <li><strong>Organic #2：</strong>thangka.com.my（臧缘，RM 18,888 - RM 23,888）</li>
+        <li><strong>Videos (4)：</strong>全部来自 Qi Xi Global 起玺国际（2024-2025 年 Facebook/Instagram 视频）</li>
+        <li><strong>Shopping Ads（右侧）：</strong>Buddha Stones ($250.99) / Discovery Japan ($563.21) / HomeLoft SG ($236.91) / Karmabless ($51.21) 等</li>
+        <li><strong>洞察：</strong>中文 SERP = <strong>Alvin + Qi Xi 双雄</strong>。两者都是纯社交电商（无独立站）。Gift One 做中英双语独立站 + SEO 内容可以直接切入这个空白。Search Ads 完全空白（中文词无人投）。</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="data-source">Data Source: Google SG SERP screenshots, captured from Singapore IP, April 8, 2026</p>
+
+  <h3>SERP 广告主汇总</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Advertiser</th>
+          <th>Ad Type</th>
+          <th>Appeared In</th>
+          <th>Threat Level</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>thangkamarket.com</strong></td><td><span class="badge badge-info">Search</span></td><td>3/5 queries</td><td><span class="comp-med">MEDIUM</span></td><td>最活跃的 Search 广告主，可能是 Etsy 卖家独立站</td></tr>
+        <tr><td><strong>artoftibet.com</strong></td><td><span class="badge badge-info">Search</span></td><td>2/5 queries</td><td><span class="comp-med">MEDIUM</span></td><td>打 60% off 折扣，老牌竞品在 SG 投了 Search Ads</td></tr>
+        <tr><td><strong>Potala Gate</strong> (potalagate.com)</td><td><span class="badge badge-info">Search</span></td><td>1/5 queries</td><td><span class="comp-low">LOW</span></td><td>新发现竞品，出现在高意图词</td></tr>
+        <tr><td><strong>Buddha Stones</strong> (SG.Buddhastones / Shopee)</td><td><span class="badge badge-warning">Shopping</span></td><td>4/5 queries</td><td><span class="comp-med">MEDIUM</span></td><td>最频繁的 Shopping 广告主，$44.99-$369.99，Shopee 卖家</td></tr>
+        <tr><td><strong>HomeLoft SG</strong></td><td><span class="badge badge-warning">Shopping</span></td><td>3/5 queries</td><td><span class="comp-low">LOW</span></td><td>$236.91，SG 本地家居平台</td></tr>
+        <tr><td><strong>HOSEIKI</strong> (Shopee)</td><td><span class="badge badge-warning">Shopping</span></td><td>1/5 queries</td><td><span class="comp-low">LOW</span></td><td>$388，Shopee 中高端卖家</td></tr>
+        <tr><td><strong>Discovery Japan</strong></td><td><span class="badge badge-warning">Shopping</span></td><td>2/5 queries</td><td><span class="comp-low">LOW</span></td><td>$519-$563，日本跨境卖家</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-success">
+    <strong>修正后的机会判断：</strong><br>
+    Google Ads 并非完全空白——有 2-3 家在投 Search Ads，Shopping Ads 有平台卖家参与。但竞争仍然极低：<br>
+    1. <strong>Search Ads：</strong>只有 thangkamarket.com + artoftibet.com 两个非本地竞品在投，CPC 仍然极低<br>
+    2. <strong>Shopping Ads：</strong>全是平台卖家（Shopee/Shein），无独立品牌站。Gift One 上 Shopping 后图片质量 + 品牌溢价可以形成明显差异化<br>
+    3. <strong>中文词完全空白：</strong>"唐卡 新加坡" 零 Search Ads，低成本独占机会<br>
+    4. <strong>Google Business Profile 是必做项：</strong>Dzambhala 5.0 星 64 reviews 锁住了本地面板，Gift One 需要尽早建立 GBP
+  </div>
+</section>
+
+<!-- ============================================================
+     5. FACEBOOK ADS ECOSYSTEM
+     ============================================================ -->
+<section class="section" id="fb-ads">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <div>
+      <h2>Facebook / Meta Ads Ecosystem</h2>
+      <p style="color:var(--text-muted); font-size:14px;">Meta Ad Library 新加坡唐卡广告调研</p>
+    </div>
+  </div>
+
+  <div class="metric-row">
+    <div class="metric-card">
+      <div class="metric-label">Active Thangka Advertisers (SG)</div>
+      <div class="metric-value primary">3</div>
+      <div class="metric-sub">Qi Xi Global / LunziArt / Alvin 说唐卡</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Chinese-Language Ads</div>
+      <div class="metric-value warning">2</div>
+      <div class="metric-sub">Qi Xi + Alvin — 风水/财运角度</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">English-Language Ads</div>
+      <div class="metric-value" style="color:var(--info);">1</div>
+      <div class="metric-sub">LunziArt — 灵性/正念角度</div>
+    </div>
+  </div>
+
+  <h3>Ad Library Overview</h3>
+  <div class="data-note">以下截图来自 Meta Ad Library（country=SG），展示各广告主的活跃广告。</div>
+  <div class="img-grid">
+    <div>
+      <img style="width:100%;border-radius:var(--card-radius);border:1px solid var(--border);" src="fb-adlib-thangka-sg.png" alt="Meta Ad Library - thangka SG">
+      <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">搜索 "thangka"（SG）— ~7 条活跃广告</div>
+    </div>
+    <div>
+      <img style="width:100%;border-radius:var(--card-radius);border:1px solid var(--border);" src="fb-adlib-qixi.png" alt="Meta Ad Library - Qi Xi Global">
+      <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Qi Xi Global — ~47 条活跃广告（最多）</div>
+    </div>
+  </div>
+  <div class="img-grid">
+    <div>
+      <img style="width:100%;border-radius:var(--card-radius);border:1px solid var(--border);" src="fb-adlib-lunziart.png" alt="Meta Ad Library - LunziArt">
+      <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">LunziArt — ~2 条活跃广告</div>
+    </div>
+    <div>
+      <img style="width:100%;border-radius:var(--card-radius);border:1px solid var(--border);" src="fb-adlib-alvin.png" alt="Meta Ad Library - Alvin 说唐卡">
+      <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">搜索 "说唐卡" — Qi Xi + 梵心宝鉴等</div>
+    </div>
+  </div>
+  <p class="data-source">Data Source: Meta Ad Library via Chrome DevTools, country=SG, April 8, 2026</p>
+
+  <h3>Active Advertisers Detail</h3>
+
+  <div class="card">
+    <div class="card-title">1. Qi Xi Global 新加坡起玺国际藏传文物馆</div>
+    <div class="analysis-text">
+      <div class="pill-row">
+        <span class="pill pill-amber">Video Ads</span>
+        <span class="pill pill-red">Chinese Language</span>
+        <span class="pill pill-purple">Messenger Lead Gen</span>
+        <span class="pill pill-teal">Woodlands, SG</span>
+      </div>
+      <p><strong>广告数量：</strong>~47 条活跃广告（Ad Library 实测）。最早 Mar 13, 2026 启动，持续大量投放</p>
+      <p><strong>投放平台：</strong>Facebook, Instagram, Audience Network, Messenger</p>
+      <p><strong>创意主题：</strong>寺庙师傅亲手绘制 → 天然矿物颜料 → 开光加持 → 数量有限。锚定价 SGD 88。</p>
+      <p><strong>CTA：</strong>"发消息"（Messenger 咨询转化）</p>
+      <p><strong>分析：</strong>实体馆用 FB 引流到 Messenger，走咨询转化模式。SGD 88 是引流锚点。与 Gift One 的 WhatsApp 模式类似但受众更窄（纯中文）。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">2. LunziArt — Nepal Thangka & Buddhist Statues</div>
+    <div class="analysis-text">
+      <div class="pill-row">
+        <span class="pill pill-blue">Image Ads</span>
+        <span class="pill pill-green">English Language</span>
+        <span class="pill pill-amber">E-commerce Direct</span>
+      </div>
+      <p><strong>广告数量：</strong>2 条活跃广告（Apr 2, 2026 启动）</p>
+      <p><strong>创意主题：</strong>"Carry a piece of Himalayan spirituality wherever you go." 推广唐卡吊坠（可佩戴），24K 金。50% off + 免运。</p>
+      <p><strong>CTA：</strong>Shop Now → lunziart.com (Shopify)</p>
+      <p><strong>分析：</strong>卖的是唐卡衍生品（吊坠），非传统挂画唐卡。定位 mindfulness/lifestyle，不是宗教用品。与 Gift One 产品线不直接冲突。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">3. Alvin 说唐卡</div>
+    <div class="analysis-text">
+      <div class="pill-row">
+        <span class="pill pill-amber">Video Ads (KOL)</span>
+        <span class="pill pill-red">Chinese Language</span>
+        <span class="pill pill-purple">Messenger Lead Gen</span>
+      </div>
+      <p><strong>广告数量：</strong>1 条活跃广告（Apr 6, 2026 启动，极新）</p>
+      <p><strong>创意主题：</strong>黑金时轮金刚曼陀罗唐卡 → 五行平衡 → 四大神兽守护 → 家庭平安/财富积累。个人 IP 出镜讲解。</p>
+      <p><strong>CTA：</strong>"发消息"（WhatsApp / Messenger）</p>
+      <p><strong>分析：</strong>个人 IP 带货模式，风水/财运叙事。受众与 Gift One 的华人客群重叠度高。但无独立站，纯社交电商。</p>
+    </div>
+  </div>
+  <p class="data-source">Data Source: Meta Ad Library via Chrome DevTools MCP, country=SG, queried April 7, 2026</p>
+
+  <div class="callout callout-insight">
+    <strong>FB 生态洞察：</strong>两个清晰的受众分层正在形成——<br>
+    <strong>中文受众</strong>（Qi Xi + Alvin）：风水/财运/开光叙事，Messenger 咨询转化，低锚点引流<br>
+    <strong>英文受众</strong>（LunziArt）：灵性/正念/lifestyle，直接电商转化<br>
+    Gift One 的独特优势：<strong>同时覆盖两个受众</strong>（中英双语站 + 两套创意策略），且有独立站 + 完整 SKU（不是只卖吊坠或只做社交）
+  </div>
+</section>
+
+<!-- ============================================================
+     6. STRATEGY
+     ============================================================ -->
+<div class="section-banner" id="strategy" style="background: linear-gradient(135deg, #2c1810, #4a2c1a, #b8860b);">
+  <span class="section-num" style="color:rgba(255,255,255,0.3);">06</span>
+  <h2>Entry Strategy</h2>
+  <p>基于数据的新加坡唐卡市场进入策略</p>
+</div>
+
+</div><!-- /report-container (sections 1-6 banner) -->
+
+<div class="report-container">
+
+  <h3>Market Structure Assessment</h3>
+  <div class="risk-opp-grid">
+    <div class="opp-box">
+      <h4>Opportunities</h4>
+      <ul>
+        <li><strong>Google Ads 极低竞争：</strong>仅 2-3 家非本地 Search Ads + 平台 Shopping，CPC $0.13-$1.07，$10/天即可占据核心词</li>
+        <li><strong>SG 本地电商空白：</strong>没有一个 SG 竞品有功能完整的线上商店</li>
+        <li><strong>中文电商薄弱：</strong>Zang Yuan 只有 46 SKU，WooCommerce 体验差</li>
+        <li><strong>季节性窗口：</strong>Vesak Day (May) + CNY (Jan-Feb) 是两个明确需求峰值</li>
+        <li><strong>Custom Order 未被线上化：</strong>只有 Dzambhala 接定制，且仅线下</li>
+        <li><strong>B2B 无人做：</strong>企业礼品（Corporate Gifts）是 Gift One 现有优势</li>
+      </ul>
+    </div>
+    <div class="risk-box">
+      <h4>Risks & Challenges</h4>
+      <ul>
+        <li><strong>市场极小：</strong>核心搜索量仅 ~470/月（thangka 相关），天花板低</li>
+        <li><strong>高客单 + 跨境 = 信任门槛高：</strong>$1,000+ 唐卡需要强信任信号（大师背书、开光证书、退换保障）</li>
+        <li><strong>物流复杂：</strong>唐卡体积大、易碎，需定制包装，15 天定制周期需管理预期</li>
+        <li><strong>宗教敏感：</strong>新加坡多元宗教社会，唐卡营销需要尊重但不过度宗教化</li>
+        <li><strong>Nepal 供应链竞争：</strong>尼泊尔直销店（The Thangka、Lucky Thanka）价格更低，物流可能更快</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Three-Phase Launch Plan</h3>
+
+  <div class="action-card p0">
+    <div class="action-title"><span class="badge badge-danger">PHASE 1</span> Foundation（Month 1-2）</div>
+    <div class="action-desc">
+      <strong>目标：</strong>建站 + SEO 基础 + 信任体系搭建<br><br>
+      <ul>
+        <li><strong>Shopify 建站：</strong>中英双语（EN 主站 + ZH 翻译），唐卡 18 SKU（4 款中号金箔 + 7 款大号金/银双版）+ 手机贴 3 SKU = 21 个产品页。每个唐卡需：高清大图 × 3+、大师简介、尺寸/材质/寓意详解、开光/加持说明</li>
+        <li><strong>WhatsApp Business 配置：</strong>咨询入口贯穿全站，唐卡页设置"咨询定制"CTA，自动回复模板</li>
+        <li><strong>Trust 信号建设：</strong>热贡大师资质页、制作过程视频、开光证书样式、实物 vs 效果图对比</li>
+        <li><strong>SEO Content Plan：</strong>10 篇核心内容（What is Thangka, Nine Bodhisattva Guide, Thangka Buying Guide SG, Gold vs Silver Thangka, Thangka Care, Thangka as Corporate Gift, Vesak Day Gift Guide 等）</li>
+        <li><strong>Google Business Profile：</strong>虽然是纯线上店，但可以设置 SG 服务区域提升本地搜索权重</li>
+      </ul>
+    </div>
+    <div class="action-impact"><strong>预期产出：</strong>完整 Shopify 站 + 10 篇 SEO 内容 + WhatsApp 咨询流程就绪</div>
+  </div>
+
+  <div class="action-card p1">
+    <div class="action-title"><span class="badge badge-warning">PHASE 2</span> Organic Growth（Month 3-6）</div>
+    <div class="action-desc">
+      <strong>目标：</strong>SEO 排名 + 社交种草 + 低客单品验证<br><br>
+      <ul>
+        <li><strong>SEO 持续：</strong>月产 4 篇内容，瞄准 "thangka singapore"、"buy thangka online"、"tibetan art gift" 等长尾词</li>
+        <li><strong>手机贴 Shopee SG 上架：</strong>$19.99 手机贴同步上 Shopee 测试本地电商流量，验证物流链路</li>
+        <li><strong>Instagram + TikTok 内容：</strong>制作过程短视频（大师手绘）、唐卡寓意科普、开箱/裱框过程。中英双发</li>
+        <li><strong>Google Search Console 监控：</strong>追踪 "thangka" 相关词排名进展</li>
+        <li><strong>B2B 触达：</strong>SG 佛教寺院/中心、高端室内设计公司、企业礼品采购方。准备 B2B catalog PDF</li>
+      </ul>
+    </div>
+    <div class="action-impact"><strong>KPI：</strong>核心词进入 Google SG Top 20 / Shopee 手机贴月销 30+ / Instagram 500 followers</div>
+  </div>
+
+  <div class="action-card p2">
+    <div class="action-title"><span class="badge badge-info">PHASE 3</span> Paid Acquisition（Month 6+）</div>
+    <div class="action-desc">
+      <strong>目标：</strong>付费渠道开启 + 规模化验证<br><br>
+      <ul>
+        <li><strong>Google Search Ads：</strong>3 个 ad groups — "thangka" (head), "tibetan art" (adjacent), "buddhist gifts" (broad)。日预算 $8-$13 起步，CPC 预估 $0.30-$0.80，日获 15-30 clicks</li>
+        <li><strong>Google Shopping：</strong>全 SKU Feed（唐卡 + 手机贴），SERP 数据显示 Shopping 是该品类主流广告形式。日预算 $5-$8，与平台卖家（Shopee/Shein）竞争，品牌站图片质量 + 溢价可形成差异化</li>
+        <li><strong>Facebook Ads (中文)：</strong>对标 Qi Xi Global 和 Alvin 的风水/财运叙事，但引导至独立站而非 Messenger。视频创意 + 手机贴 $19.99 引流</li>
+        <li><strong>Facebook Ads (English)：</strong>灵性/正念/home decor 角度。唐卡 lifestyle 图 + Thangka Buying Guide landing page</li>
+        <li><strong>TikTok Ads：</strong>短视频素材复用 organic 内容，Spark Ads 模式。测试手机贴低客单转化</li>
+        <li><strong>Retargeting：</strong>唐卡页访客 → WhatsApp 咨询 CTA（非直接购买）</li>
+      </ul>
+    </div>
+    <div class="action-impact"><strong>月预算建议：</strong>Google Search $250 + Google Shopping $200 + Facebook $500 + TikTok $200 + Retargeting $100 = ~$1,250/月起步。根据 ROAS 逐步加量。</div>
+  </div>
+
+  <h3>Campaign Architecture（Phase 3 Detail）</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Channel</th>
+          <th>Campaign</th>
+          <th>Objective</th>
+          <th>Audience</th>
+          <th>Budget/Day</th>
+          <th>CTA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="2"><strong>Google</strong></td>
+          <td>Search — Thangka Core</td>
+          <td>Traffic / Conversions</td>
+          <td>SG, "thangka" + variants</td>
+          <td class="mono">$5-$8</td>
+          <td>Shop Now / Enquire</td>
+        </tr>
+        <tr>
+          <td>Search — Buddhist Gifts</td>
+          <td>Traffic</td>
+          <td>SG, "buddhist gifts" + "spiritual gifts"</td>
+          <td class="mono">$3-$5</td>
+          <td>Shop Now (手机贴)</td>
+        </tr>
+        <tr>
+          <td><strong>Google Shopping</strong></td>
+          <td>Shopping — 全 SKU Feed</td>
+          <td>Conversions</td>
+          <td>SG, 全品类 Feed（唐卡 + 手机贴）</td>
+          <td class="mono">$5-$8</td>
+          <td>Direct Purchase</td>
+        </tr>
+        <tr>
+          <td rowspan="2"><strong>Facebook</strong></td>
+          <td>TOF — 手机贴引流 (CN)</td>
+          <td>Conversions</td>
+          <td>SG Chinese speakers, 25-55, Buddhist interest</td>
+          <td class="mono">$8-$10</td>
+          <td>Shop Now ($19.99)</td>
+        </tr>
+        <tr>
+          <td>TOF — Thangka Awareness (EN)</td>
+          <td>Traffic / Lead Gen</td>
+          <td>SG English speakers, 30-60, art/spirituality interest</td>
+          <td class="mono">$8-$10</td>
+          <td>Learn More → Guide</td>
+        </tr>
+        <tr>
+          <td><strong>TikTok</strong></td>
+          <td>Spark Ads — 制作过程</td>
+          <td>Traffic</td>
+          <td>SG, 18-45, art/culture interest</td>
+          <td class="mono">$5-$7</td>
+          <td>Visit Profile → Link in Bio</td>
+        </tr>
+        <tr>
+          <td><strong>Retargeting</strong></td>
+          <td>FB/IG Retargeting — 唐卡访客</td>
+          <td>Lead Gen</td>
+          <td>Site visitors (thangka pages, >30s)</td>
+          <td class="mono">$3-$5</td>
+          <td>WhatsApp Enquiry</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ============================================================
+     7. TIMELINE
+     ============================================================ -->
+<section class="section" id="timeline">
+  <div class="report-container">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <div>
+        <h2>Execution Timeline</h2>
+        <p style="color:var(--text-muted); font-size:14px;">12 个月路线图</p>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot red"></div>
+        <div class="timeline-date">Month 1-2</div>
+        <div class="timeline-title">Foundation — 建站 + 内容基建</div>
+        <div class="timeline-desc">Shopify 站搭建（中英双语）→ 21 SKU 上架 → WhatsApp 咨询流程 → 10 篇 SEO 内容 → Google Business Profile → 社交账号开设</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot amber"></div>
+        <div class="timeline-date">Month 3-4</div>
+        <div class="timeline-title">Organic Push — SEO + Social</div>
+        <div class="timeline-desc">持续内容产出 → 手机贴上 Shopee 测试 → IG/TikTok 发布大师制作过程短视频 → B2B outreach（寺院/设计公司）→ 监控 SEO 排名</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot green"></div>
+        <div class="timeline-date">Month 5 (Vesak Day)</div>
+        <div class="timeline-title">First Seasonal Peak</div>
+        <div class="timeline-desc">Vesak Day 专题页 → 节庆礼品推荐 → 限量款/加持款上架 → Email/WhatsApp 推送已有客户 → 评估是否提前开启小额 SEM</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot blue"></div>
+        <div class="timeline-date">Month 6-8</div>
+        <div class="timeline-title">Paid Acquisition Launch</div>
+        <div class="timeline-desc">Google Search + Shopping 开启 → FB Ads 测试（中文引流 + 英文品宣）→ TikTok Spark Ads → Retargeting pixel 积累 → 月预算 ~$1,250 起步</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot blue"></div>
+        <div class="timeline-date">Month 9-12</div>
+        <div class="timeline-title">Scale & Optimize</div>
+        <div class="timeline-desc">根据 ROAS 优化渠道预算分配 → 扩展品类（横向：更多佛教用品、五台山系列）→ CNY 旺季备战 → B2B 企业定制方案上线 → 评估 SEA 其他市场（MY/TH）</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     8. KPI FRAMEWORK
+     ============================================================ -->
+<section class="section" id="kpi">
+  <div class="report-container">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <div>
+        <h2>KPI Framework</h2>
+        <p style="color:var(--text-muted); font-size:14px;">分阶段成功指标</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th class="text-center">Phase 1 (M1-2)</th>
+            <th class="text-center">Phase 2 (M3-6)</th>
+            <th class="text-center">Phase 3 (M6-12)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Organic Traffic (Monthly)</strong></td>
+            <td class="text-center mono">100-200</td>
+            <td class="text-center mono">500-1,000</td>
+            <td class="text-center mono">1,500-3,000</td>
+          </tr>
+          <tr>
+            <td><strong>Google SG Ranking ("thangka")</strong></td>
+            <td class="text-center">Indexed</td>
+            <td class="text-center">Top 20</td>
+            <td class="text-center">Top 10</td>
+          </tr>
+          <tr>
+            <td><strong>WhatsApp Enquiries / Month</strong></td>
+            <td class="text-center mono">5-10</td>
+            <td class="text-center mono">15-30</td>
+            <td class="text-center mono">40-80</td>
+          </tr>
+          <tr>
+            <td><strong>手机贴 Orders / Month</strong></td>
+            <td class="text-center mono">—</td>
+            <td class="text-center mono">10-30 (Shopee + Shopify)</td>
+            <td class="text-center mono">50-100</td>
+          </tr>
+          <tr>
+            <td><strong>唐卡 Conversions / Month</strong></td>
+            <td class="text-center mono">0-1</td>
+            <td class="text-center mono">1-3</td>
+            <td class="text-center mono">3-8</td>
+          </tr>
+          <tr>
+            <td><strong>唐卡 AOV</strong></td>
+            <td class="text-center" colspan="3">$1,000 - $3,000 (target: $1,500 blended)</td>
+          </tr>
+          <tr>
+            <td><strong>Monthly Revenue (Steady State)</strong></td>
+            <td class="text-center mono">$200-$500</td>
+            <td class="text-center mono">$1,500-$5,000</td>
+            <td class="text-center mono">$5,000-$15,000</td>
+          </tr>
+          <tr>
+            <td><strong>Paid Ad Spend / Month</strong></td>
+            <td class="text-center">$0</td>
+            <td class="text-center">$0 (organic only)</td>
+            <td class="text-center mono">$1,000-$1,500</td>
+          </tr>
+          <tr>
+            <td><strong>Blended ROAS (Phase 3)</strong></td>
+            <td class="text-center">—</td>
+            <td class="text-center">—</td>
+            <td class="text-center mono">300-500%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-warn">
+      <strong>关键假设与风险：</strong><br>
+      1. 唐卡月 3-8 单基于 ~470/月搜索量 × 1-2% 咨询转化率 × 30-50% 咨询成交率估算。实际受信任建设速度和定价策略影响大。<br>
+      2. 手机贴作为引流品，自身利润薄（$19.99 × 50-100/月 = $1,000-$2,000），核心作用是获客 + 验证物流。<br>
+      3. Revenue 天花板受市场规模限制。如需突破 $15K/月需扩展至 MY/TH/ID 或 B2B 批量订单。
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     9. METHODOLOGY
+     ============================================================ -->
+<section class="section" id="methodology">
+  <div class="report-container">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <div>
+        <h2>Methodology & Data Sources</h2>
+        <p style="color:var(--text-muted); font-size:14px;">研究方法与数据来源说明</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Data Type</th>
+            <th>Source</th>
+            <th>Method</th>
+            <th>Date</th>
+            <th>Limitations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Keyword Volume & CPC</td>
+            <td>Google Ads Keyword Planner</td>
+            <td>MCP API (generate_keyword_historical_metrics)</td>
+            <td>Apr 7, 2026</td>
+            <td>KP merges close variants; low-volume keywords show as 0-10 bucket</td>
+          </tr>
+          <tr>
+            <td>Google Ads Competition</td>
+            <td>Google Ads Transparency Center</td>
+            <td>Playwright browser automation</td>
+            <td>Apr 7, 2026</td>
+            <td>Ad counts change daily; only shows currently active ads</td>
+          </tr>
+          <tr>
+            <td>Facebook Ads Activity</td>
+            <td>Meta Ad Library</td>
+            <td>Chrome DevTools MCP (direct browser)</td>
+            <td>Apr 7-8, 2026</td>
+            <td>"唐卡" keyword polluted by gift card context. Apr 7: text analysis; Apr 8: screenshots captured</td>
+          </tr>
+          <tr>
+            <td>Competitor Websites</td>
+            <td>Direct site analysis</td>
+            <td>WebFetch + Playwright</td>
+            <td>Apr 7, 2026</td>
+            <td>Some sites JS-heavy, product counts estimated from pagination</td>
+          </tr>
+          <tr>
+            <td>Competitor Discovery</td>
+            <td>Google Search, Etsy, Shopee SG, Lazada SG</td>
+            <td>WebSearch (8 queries across EN + CN)</td>
+            <td>Apr 7, 2026</td>
+            <td>Text-based search results, no geo-specific SERP rendering</td>
+          </tr>
+          <tr>
+            <td>SG SERP Analysis</td>
+            <td>Google SG (Singapore IP)</td>
+            <td>Manual screenshots from SG IP (5 queries)</td>
+            <td>Apr 8, 2026</td>
+            <td>Single snapshot; ad presence fluctuates daily. Revealed Search + Shopping ads not visible in Transparency Center</td>
+          </tr>
+          <tr>
+            <td>Google Trends</td>
+            <td>Google Trends (SG + Global)</td>
+            <td>Chrome DevTools MCP (3 queries)</td>
+            <td>Apr 8, 2026</td>
+            <td>SG volume too low for detailed breakdown; "not enough data" warnings on most terms. Global regional ranking reliable.</td>
+          </tr>
+          <tr>
+            <td>Competitor Homepage Screenshots</td>
+            <td>Direct site access (5 sites)</td>
+            <td>Chrome DevTools MCP</td>
+            <td>Apr 8, 2026</td>
+            <td>Single-page homepage captures; does not reflect full site depth</td>
+          </tr>
+          <tr>
+            <td>Product Data</td>
+            <td>Client-provided Excel files</td>
+            <td>Direct file read</td>
+            <td>Apr 7, 2026</td>
+            <td>Pricing not provided in files; estimated from market context</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="data-note">
+      <strong>SERP Screenshots:</strong> 本报告包含 5 张新加坡本地 IP 实测 Google SERP 截图（April 8, 2026），覆盖关键词：<br>
+      <code>thangka singapore</code> / <code>buy thangka online singapore</code> / <code>tibetan art singapore</code> / <code>buddhist gifts singapore</code> / <code>唐卡 新加坡</code>
+    </div>
+  </div>
+</section>
+
+</div><!-- /report-container -->
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<div class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand-name">Himax</div>
+    <div class="footer-divider"></div>
+    <div class="footer-meta">
+      <span>Thangka Singapore — Category Research Report</span>
+      <span>Prepared by Satori — April 7-8, 2026</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     CHARTS
+     ============================================================ -->
+<script>
+// Seasonality Chart — "thangka" keyword
+new Chart(document.getElementById('seasonChart'), {
+  type: 'line',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets: [{
+      label: '"thangka" SG Monthly Searches',
+      data: [210, 210, 320, 390, 260, 260, 210, 260, 210, 170, 210, 260],
+      borderColor: '#b8860b',
+      backgroundColor: 'rgba(184,134,11,0.1)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 4,
+      pointBackgroundColor: '#b8860b'
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      title: { display: true, text: '"thangka" — SG Seasonality', font: { size: 14, family: 'DM Sans' } },
+      legend: { display: false }
+    },
+    scales: {
+      y: { beginAtZero: true, title: { display: true, text: 'Monthly Searches' } }
+    }
+  }
+});
+
+// Wealth God Chart
+new Chart(document.getElementById('wealthGodChart'), {
+  type: 'line',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets: [{
+      label: '"wealth god" SG Monthly Searches',
+      data: [140, 70, 50, 40, 50, 40, 40, 40, 40, 30, 30, 40],
+      borderColor: '#9b2c2c',
+      backgroundColor: 'rgba(155,44,44,0.1)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 4,
+      pointBackgroundColor: '#9b2c2c'
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      title: { display: true, text: '"wealth god" — CNY Spike', font: { size: 14, family: 'DM Sans' } },
+      legend: { display: false }
+    },
+    scales: {
+      y: { beginAtZero: true, title: { display: true, text: 'Monthly Searches' } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
