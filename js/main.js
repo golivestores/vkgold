@@ -49,14 +49,15 @@ document.addEventListener('DOMContentLoaded', () => {
     initProductCollection();
     initBannerShowroom();
     initFeaturedProjects();
-    initAssetsDuo();
     initReviews();
+    initTikTokUGC();
     initBannerCTA();
     initFooter();
     initWhoWeServe();
     initOurCraft();
     initDesignCap();
-    initMenu();
+    initSiteNav();
+    initBestsellers();
     ScrollTrigger.refresh();
   });
 });
@@ -251,42 +252,54 @@ function initFeaturedProjects() {
   });
 }
 
-/* ─── 7. ASSETS DUO — Parallax ─── */
-function initAssetsDuo() {
-  const section = document.querySelector('.assets-duo');
-  if (!section || isMobile()) return;
+/* ─── TIKTOK UGC — Scroll Animations + Arrow Nav ─── */
+function initTikTokUGC() {
+  const sec = document.querySelector('.tiktok-ugc');
+  if (!sec) return;
 
-  const container = section.querySelector('.container');
-  const images = section.querySelectorAll('.block img');
+  const rail = sec.querySelector('.tu-rail');
+  const prevBtn = sec.querySelector('.tu-arrow.is-prev');
+  const nextBtn = sec.querySelector('.tu-arrow.is-next');
 
-  const setup = () => {
-    images.forEach((img) => {
-      if (img.clientHeight < container.clientHeight) {
-        const diff = container.clientHeight - img.clientHeight;
-        gsap.fromTo(img.parentElement,
-          { y: 0 },
-          {
-            y: diff, ease: 'none',
-            scrollTrigger: {
-              trigger: section,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            }
-          }
-        );
-      }
-    });
+  // Arrow scroll
+  const scrollRail = (dir) => {
+    if (!rail) return;
+    const card = rail.querySelector('.tu-card');
+    if (!card) return;
+    const cardW = card.getBoundingClientRect().width;
+    const gap = parseFloat(getComputedStyle(rail).gap) || 40;
+    rail.scrollBy({ left: dir * (cardW + gap), behavior: 'smooth' });
   };
+  if (prevBtn) prevBtn.addEventListener('click', () => scrollRail(-1));
+  if (nextBtn) nextBtn.addEventListener('click', () => scrollRail(1));
 
-  const allLoaded = Array.from(images).every(img => img.complete);
-  if (allLoaded) { setup(); }
-  else {
-    let loaded = 0;
-    images.forEach(img => {
-      if (img.complete) { loaded++; }
-      else { img.addEventListener('load', () => { loaded++; if (loaded >= images.length) setup(); }, { once: true }); }
-    });
+  const updateArrows = () => {
+    if (!rail || !prevBtn || !nextBtn) return;
+    const maxScroll = rail.scrollWidth - rail.clientWidth;
+    prevBtn.disabled = rail.scrollLeft <= 2;
+    nextBtn.disabled = rail.scrollLeft >= maxScroll - 2;
+  };
+  if (rail) rail.addEventListener('scroll', updateArrows, { passive: true });
+  requestAnimationFrame(updateArrows);
+
+  // Entry animations
+  const head = sec.querySelector('.tu-head');
+  const stats = sec.querySelector('.tu-stats');
+  const cards = sec.querySelectorAll('.tu-card');
+  if (head) {
+    gsap.set(head, { opacity: 0, y: 40 });
+    gsap.to(head, { opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: sec, start: 'top 75%' } });
+  }
+  if (stats) {
+    gsap.set(stats, { opacity: 0, y: 20 });
+    gsap.to(stats, { opacity: 1, y: 0, duration: 1, delay: 0.1, ease: 'power3.out',
+      scrollTrigger: { trigger: stats, start: 'top 85%' } });
+  }
+  if (cards.length) {
+    gsap.set(cards, { opacity: 0, y: 50, scale: 0.96 });
+    gsap.to(cards, { opacity: 1, y: 0, scale: 1, stagger: 0.08, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: rail, start: 'top 82%' } });
   }
 }
 
@@ -426,62 +439,220 @@ function initFooter() {
 }
 
 /* ─── MENU — Hamburger Open/Close ─── */
-function initMenu() {
-  const app = document.querySelector('.app');
-  const burger = document.querySelector('.burger');
-  const closeBtn = document.querySelector('.close');
-  const menu = document.querySelector('.menu');
-  const menuBg = menu ? menu.querySelector('.background') : null;
-  const menuMasks = menu ? menu.querySelectorAll('.mask') : [];
-  const menuButton = menu ? menu.querySelector('.base-button') : null;
+/* ─── SITE NAV — E-commerce Mega Menu + Sticky + Mobile Drawer ─── */
+function initSiteNav() {
+  const nav = document.querySelector('.site-nav');
+  if (!nav) return;
 
-  if (!app || !burger || !menu) return;
+  // Coordinated fade-in with intro timeline (intro wraps ~3.4s)
+  gsap.fromTo(nav,
+    { opacity: 0, y: -20 },
+    {
+      opacity: 1, y: 0, duration: 1.1, delay: 2.8, ease: 'power3.out',
+      clearProps: 'y,transform',
+      onComplete: () => nav.classList.add('is-ready')
+    }
+  );
 
-  let isOpen = false;
+  // Scroll-hide + sticky — hide on scroll down, reveal on scroll up
+  let lastScrollY = 0;
+  let ticking = false;
+  const updateNav = (scrollY) => {
+    const delta = scrollY - lastScrollY;
 
-  const openMenu = () => {
-    if (isOpen) return;
-    isOpen = true;
-    app.classList.add('is-overlay', 'is-menu');
-    burger.parentElement.classList.add('menu-open');
-    menu.style.visibility = 'visible';
-    menu.style.pointerEvents = 'auto';
-    lenis.stop();
+    // Sticky background
+    nav.classList.toggle('is-sticky', scrollY > 80);
 
-    // Animate in
-    gsap.fromTo(menuBg, { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: 'power3.inOut' });
-    gsap.fromTo(menuMasks, { yPercent: 100 }, { yPercent: 0, stagger: 0.05, duration: 0.6, delay: 0.2, ease: 'power3.out' });
-    if (menuButton) gsap.fromTo(menuButton, { yPercent: 100, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.6, delay: 0.4, ease: 'power3.out' });
+    // Don't hide when mega or drawer is open
+    if (nav.classList.contains('is-mega-open') || nav.classList.contains('is-drawer-open')) {
+      nav.classList.remove('is-hidden');
+    } else if (scrollY > 220 && delta > 6) {
+      nav.classList.add('is-hidden');
+    } else if (delta < -6 || scrollY < 120) {
+      nav.classList.remove('is-hidden');
+    }
 
-    // Show close button, hide burger
-    if (closeBtn) closeBtn.style.visibility = 'visible';
-    burger.style.visibility = 'hidden';
+    lastScrollY = scrollY;
+    ticking = false;
   };
 
-  const closeMenu = () => {
-    if (!isOpen) return;
-    isOpen = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => updateNav(window.scrollY || 0));
+      ticking = true;
+    }
+  }, { passive: true });
 
-    gsap.to(menuBg, { scaleY: 0, duration: 0.4, ease: 'power3.inOut', onComplete: () => {
-      app.classList.remove('is-overlay', 'is-menu');
-      burger.parentElement.classList.remove('menu-open');
-      menu.style.visibility = 'hidden';
-      menu.style.pointerEvents = 'none';
-      if (closeBtn) closeBtn.style.visibility = 'hidden';
-      burger.style.visibility = 'visible';
-      lenis.start();
-    }});
+  if (typeof lenis !== 'undefined' && lenis && lenis.on) {
+    lenis.on('scroll', ({ scroll }) => updateNav(scroll));
+  }
+
+  // Mega menu hover (desktop)
+  const items = nav.querySelectorAll('.sn-item[data-mega]');
+  let openTimer = null, closeTimer = null, activeItem = null;
+
+  const closeMega = () => {
+    if (!activeItem) { nav.classList.remove('is-mega-open'); return; }
+    activeItem.classList.remove('is-open');
+    const panel = nav.querySelector('.sn-mega[data-mega-panel="' + activeItem.dataset.mega + '"]');
+    if (panel) panel.classList.remove('is-open');
+    activeItem = null;
+    nav.classList.remove('is-mega-open');
   };
 
-  burger.addEventListener('click', (e) => { e.stopPropagation(); openMenu(); });
-  if (closeBtn) closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeMenu(); });
+  const openMega = (item) => {
+    clearTimeout(closeTimer);
+    if (activeItem && activeItem !== item) {
+      activeItem.classList.remove('is-open');
+      const prev = nav.querySelector('.sn-mega[data-mega-panel="' + activeItem.dataset.mega + '"]');
+      if (prev) prev.classList.remove('is-open');
+    }
+    item.classList.add('is-open');
+    const panel = nav.querySelector('.sn-mega[data-mega-panel="' + item.dataset.mega + '"]');
+    if (panel) panel.classList.add('is-open');
+    activeItem = item;
+    nav.classList.add('is-mega-open');
+  };
 
-  // Close when clicking outside menu
-  app.addEventListener('click', (e) => {
-    if (isOpen && !menu.contains(e.target) && !burger.contains(e.target)) {
-      closeMenu();
+  items.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      openTimer = setTimeout(() => openMega(item), 70);
+    });
+    item.addEventListener('mouseleave', () => {
+      clearTimeout(openTimer);
+      closeTimer = setTimeout(closeMega, 220);
+    });
+    // Also open on focus (keyboard)
+    const btn = item.querySelector('.sn-link');
+    if (btn) {
+      btn.addEventListener('focus', () => openMega(item));
     }
   });
+
+  // Keep mega open while hovering the panel
+  nav.querySelectorAll('.sn-mega').forEach(panel => {
+    panel.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+    panel.addEventListener('mouseleave', () => {
+      clearTimeout(openTimer);
+      closeTimer = setTimeout(closeMega, 220);
+    });
+  });
+
+  // Close mega on escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMega();
+  });
+
+  // Mobile drawer toggle
+  const burger = nav.querySelector('.sn-burger');
+  if (burger) {
+    burger.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('is-drawer-open');
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+      if (typeof lenis !== 'undefined' && lenis) {
+        if (isOpen) lenis.stop(); else lenis.start();
+      }
+    });
+  }
+
+  // Drawer accordion
+  nav.querySelectorAll('.sn-drawer-item > .sn-drawer-head').forEach(head => {
+    // Only wire up accordion toggles for heads that have a body sibling
+    const item = head.parentElement;
+    const body = item.querySelector('.sn-drawer-body');
+    if (!body) return;
+    head.addEventListener('click', (e) => {
+      e.preventDefault();
+      const willOpen = !item.classList.contains('is-open');
+      nav.querySelectorAll('.sn-drawer-item.is-open').forEach(i => i.classList.remove('is-open'));
+      if (willOpen) item.classList.add('is-open');
+    });
+  });
+}
+
+/* ─── BESTSELLERS — Tabbed Carousel ─── */
+function initBestsellers() {
+  const sec = document.querySelector('.bestsellers');
+  if (!sec) return;
+
+  const tabs = sec.querySelectorAll('.bs-tab');
+  const rails = sec.querySelectorAll('.bs-rail');
+  const prevBtn = sec.querySelector('.bs-arrow.is-prev');
+  const nextBtn = sec.querySelector('.bs-arrow.is-next');
+
+  // Tab switching
+  const switchTab = (target) => {
+    const oldRail = sec.querySelector('.bs-rail.is-active');
+    const newRail = sec.querySelector('.bs-rail[data-rail="' + target + '"]');
+    if (!newRail || oldRail === newRail) return;
+
+    tabs.forEach(t => t.classList.toggle('is-active', t.dataset.tab === target));
+
+    gsap.to(oldRail, { opacity: 0, duration: 0.25, ease: 'power2.in', onComplete: () => {
+      oldRail.classList.remove('is-active');
+      newRail.classList.add('is-active');
+      newRail.scrollLeft = 0;
+      updateArrows();
+      gsap.fromTo(newRail, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power2.out' });
+      gsap.fromTo(newRail.querySelectorAll('.bs-card'),
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.06, duration: 0.7, ease: 'power3.out' });
+    }});
+  };
+  tabs.forEach(tab => tab.addEventListener('click', () => switchTab(tab.dataset.tab)));
+
+  // Arrow scroll
+  const getActiveRail = () => sec.querySelector('.bs-rail.is-active');
+  const scrollRail = (dir) => {
+    const rail = getActiveRail();
+    if (!rail) return;
+    const card = rail.querySelector('.bs-card');
+    if (!card) return;
+    const cardW = card.getBoundingClientRect().width;
+    const gap = parseFloat(getComputedStyle(rail).gap) || 40;
+    rail.scrollBy({ left: dir * (cardW + gap), behavior: 'smooth' });
+  };
+  if (prevBtn) prevBtn.addEventListener('click', () => scrollRail(-1));
+  if (nextBtn) nextBtn.addEventListener('click', () => scrollRail(1));
+
+  // Arrow disabled state
+  const updateArrows = () => {
+    const rail = getActiveRail();
+    if (!rail || !prevBtn || !nextBtn) return;
+    const maxScroll = rail.scrollWidth - rail.clientWidth;
+    prevBtn.disabled = rail.scrollLeft <= 2;
+    nextBtn.disabled = rail.scrollLeft >= maxScroll - 2;
+  };
+  rails.forEach(r => r.addEventListener('scroll', updateArrows, { passive: true }));
+  requestAnimationFrame(updateArrows);
+
+  // Entry animation
+  const heading = sec.querySelector('.bs-head');
+  const toolbar = sec.querySelector('.bs-toolbar');
+  if (heading) {
+    gsap.set(heading, { opacity: 0, y: 40 });
+    gsap.to(heading, {
+      opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: sec, start: 'top 78%' }
+    });
+  }
+  if (toolbar) {
+    gsap.set(toolbar, { opacity: 0, y: 20 });
+    gsap.to(toolbar, {
+      opacity: 1, y: 0, duration: 1, delay: 0.12, ease: 'power3.out',
+      scrollTrigger: { trigger: sec, start: 'top 78%' }
+    });
+  }
+  const firstRail = sec.querySelector('.bs-rail.is-active');
+  if (firstRail) {
+    const cards = firstRail.querySelectorAll('.bs-card');
+    gsap.set(cards, { opacity: 0, y: 50 });
+    gsap.to(cards, {
+      opacity: 1, y: 0, stagger: 0.08, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: firstRail, start: 'top 82%' }
+    });
+  }
 }
 
 /* ─── WHO WE SERVE — Client Personas Grid ─── */
