@@ -705,7 +705,8 @@ body.is-pdp .site-nav:before{background:color-mix(in srgb,var(--color-black) 94%
 .pdp-meaning-card:nth-child(even){direction:rtl}
 .pdp-meaning-card:nth-child(even) > *{direction:ltr}
 @media(max-width:900px){.pdp-meaning-card,.pdp-meaning-card:nth-child(even){grid-template-columns:1fr;gap:1.6rem;direction:ltr;flex:0 0 82vw;scroll-snap-align:start}}
-.pdp-meaning-card img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:brightness(.88) saturate(.9);transition:filter .6s,transform .8s var(--ease-out-quart)}
+.pdp-meaning-card .pdp-meaning-img{overflow:hidden;aspect-ratio:4/5}
+.pdp-meaning-card img{width:100%;height:100%;object-fit:cover;filter:brightness(.88) saturate(.9);will-change:transform}
 .pdp-meaning-card:hover img{filter:brightness(1) saturate(1);transform:scale(1.02)}
 .pdp-meaning-body{display:flex;flex-direction:column;gap:1.4rem}
 .pdp-meaning-tag{font-family:var(--font-f-aeonik-mono);font-size:.9rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--color-gold);display:flex;align-items:center;gap:.8rem}
@@ -724,7 +725,7 @@ body.is-pdp .site-nav:before{background:color-mix(in srgb,var(--color-black) 94%
   <div class="pdp-meanings">
 
     <div class="pdp-meaning-card">
-      <img src="assets/products/zjlm-pp-1.jpg" alt="Wutai Dragon" loading="lazy">
+      <div class="pdp-meaning-img"><img src="assets/products/zjlm-pp-1.jpg" alt="Wutai Dragon" loading="lazy"></div>
       <div class="pdp-meaning-body">
         <div class="pdp-meaning-tag">Wealth &amp; Prosperity</div>
         <h3 class="pdp-meaning-name">Wutai Dragon King</h3>
@@ -733,7 +734,7 @@ body.is-pdp .site-nav:before{background:color-mix(in srgb,var(--color-black) 94%
     </div>
 
     <div class="pdp-meaning-card">
-      <img src="assets/products/zjlm-pp-2.jpg" alt="Wudang Wenchang" loading="lazy">
+      <div class="pdp-meaning-img"><img src="assets/products/zjlm-pp-2.jpg" alt="Wudang Wenchang" loading="lazy"></div>
       <div class="pdp-meaning-body">
         <div class="pdp-meaning-tag">Wisdom &amp; Career</div>
         <h3 class="pdp-meaning-name">Wudang Wenchang Dijun</h3>
@@ -742,7 +743,7 @@ body.is-pdp .site-nav:before{background:color-mix(in srgb,var(--color-black) 94%
     </div>
 
     <div class="pdp-meaning-card">
-      <img src="assets/products/zjlm-pp-3.jpg" alt="Zaki Ram" loading="lazy">
+      <div class="pdp-meaning-img"><img src="assets/products/zjlm-pp-3.jpg" alt="Zaki Ram" loading="lazy"></div>
       <div class="pdp-meaning-body">
         <div class="pdp-meaning-tag">Love &amp; Protection</div>
         <h3 class="pdp-meaning-name">Zaki Ram (Tashi Lhamo)</h3>
