@@ -366,8 +366,11 @@ function initVideoCards() {
   document.querySelectorAll('[data-video]').forEach(function(card) {
     var video = card.querySelector('video');
     if (!video) return;
+    // Start muted so poster shows, unmute on first click
+    video.muted = true;
     card.addEventListener('click', function() {
       if (video.paused) {
+        video.muted = false;
         video.play();
         card.classList.add('is-playing');
       } else {
