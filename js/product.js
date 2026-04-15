@@ -363,7 +363,7 @@ function initPdpAnimations() {
 
 // ─── Video Cards — click to play/pause ───
 function initVideoCards() {
-  document.querySelectorAll('.pdp-video-card[data-video]').forEach(function(card) {
+  document.querySelectorAll('[data-video]').forEach(function(card) {
     var video = card.querySelector('video');
     if (!video) return;
     card.addEventListener('click', function() {
