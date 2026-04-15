@@ -9,6 +9,7 @@ const PRODUCTS = {
     title: 'Wutai Dragon \u00b7 God of Wealth',
     subtitle: '99.9% Pure Gold Phone Blessing',
     badge: 'Pure Gold',
+    badge2: 'Wealth & Prosperity',
     price: '$29.90',
     breadcrumb: 'Wutai Dragon',
     category: 'Prosperity',
@@ -19,12 +20,13 @@ const PRODUCTS = {
       'assets/products/phone-charm.jpg',
     ],
     wa: 'https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Wutai%20Dragon%20Gold%20Blessing',
-    desc: 'Invite prosperity and abundance with the Dragon King of Wutai Mountain \u2014 pure gold on PVD silver foil.',
+    desc: 'Invoke the Dragon King of Wutai Mountain \u2014 the most revered wealth deity in Chinese Buddhism. 99.9% pure gold on PVD silver foil, UV-sealed for lasting brilliance.',
   },
   'wudang-wenchang': {
     title: 'Wudang Wenchang \u00b7 Wisdom',
     subtitle: '99.9% Pure Gold Phone Blessing',
     badge: 'Pure Gold',
+    badge2: 'Wisdom & Career',
     price: '$29.90',
     breadcrumb: 'Wudang Wenchang',
     category: 'Wisdom',
@@ -35,23 +37,25 @@ const PRODUCTS = {
       'assets/products/phone-charm-2.jpg',
     ],
     wa: 'https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Wudang%20Wenchang%20Gold%20Blessing',
-    desc: 'Scholarly wisdom and career success \u2014 Wenchang Dijun, patron god of literature and examination.',
+    desc: 'Channel Wenchang Dijun \u2014 celestial patron of literature and examinations from the sacred Wudang Mountains. 99.9% pure gold on PVD silver foil, UV-sealed for enduring protection.',
   },
   'zaki-ram': {
     title: 'Zaki Ram \u00b7 Love & Protection',
     subtitle: '99.9% Pure Gold Phone Blessing',
     badge: 'Pure Gold',
+    badge2: 'Love & Protection',
     price: '$29.90',
     breadcrumb: 'Zaki Ram',
     category: 'Love',
     images: [
-      'assets/products/phone-sticker-3.jpg',
-      'assets/products/phone-charm.jpg',
-      'assets/products/phone-sticker-1.jpg',
-      'assets/products/phone-charm-2.jpg',
+      'assets/products/zjlm-1.jpg',
+      'assets/products/zjlm-2.jpg',
+      'assets/products/zjlm-3.jpg',
+      'assets/products/zjlm-4.jpg',
+      'assets/products/zjlm-5.jpg',
     ],
     wa: 'https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Zaki%20Ram%20Gold%20Blessing',
-    desc: 'Guardian goddess of love, beauty and fierce protection \u2014 the only female wealth deity in Tibetan tradition.',
+    desc: 'Embrace Zaki Ram (Tashi Lhamo) \u2014 the only female wealth deity in Tibetan Buddhism, fierce guardian of love, beauty, and protection. 99.9% pure gold on PVD silver foil, UV-sealed.',
   },
 };
 
@@ -83,11 +87,25 @@ function renderProduct(sku) {
   const price = document.getElementById('pdpPrice');
   const waBtn = document.getElementById('pdpWhatsApp');
 
-  if (badge) badge.textContent = p.badge;
+  if (badge) {
+    badge.textContent = p.badge;
+    // Add badge2 if exists
+    var existingBadge2 = document.getElementById('pdpBadge2');
+    if (existingBadge2) existingBadge2.remove();
+    if (p.badge2) {
+      var b2 = document.createElement('div');
+      b2.className = 'pdp-badge pdp-badge2';
+      b2.id = 'pdpBadge2';
+      b2.textContent = p.badge2;
+      badge.parentNode.insertBefore(b2, badge.nextSibling);
+    }
+  }
   if (title) title.textContent = p.title;
   if (subtitle) subtitle.textContent = p.subtitle;
   if (price) price.textContent = p.price;
   if (waBtn) waBtn.href = p.wa;
+  var descEl = document.getElementById('pdpDesc');
+  if (descEl) descEl.textContent = p.desc;
 
   // Gallery
   renderGallery(p.images, p.title);
@@ -343,6 +361,23 @@ function initPdpAnimations() {
   });
 }
 
+// ─── Video Cards — click to play/pause ───
+function initVideoCards() {
+  document.querySelectorAll('.pdp-video-card[data-video]').forEach(function(card) {
+    var video = card.querySelector('video');
+    if (!video) return;
+    card.addEventListener('click', function() {
+      if (video.paused) {
+        video.play();
+        card.classList.add('is-playing');
+      } else {
+        video.pause();
+        card.classList.remove('is-playing');
+      }
+    });
+  });
+}
+
 // ─── Init ───
 document.addEventListener('DOMContentLoaded', function() {
   // Product page: nav always opaque (no dark hero behind it)
@@ -354,6 +389,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initZoom();
   initQuantity();
   initAccordion();
+  initVideoCards();
 
   document.fonts.ready.then(function() {
     initPdpAnimations();

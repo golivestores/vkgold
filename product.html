@@ -495,10 +495,12 @@ body.is-pdp .site-nav:before{background:color-mix(in srgb,var(--color-black) 94%
 
 <style>
 .pdp-info{padding-top:1rem}
-.pdp-badge{display:inline-block;font-family:var(--font-f-aeonik-mono);font-size:.85rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--color-black);background:var(--color-gold);padding:.55rem 1.2rem;margin-bottom:2rem;line-height:1}
+.pdp-badge{display:inline-block;font-family:var(--font-f-aeonik-mono);font-size:.85rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--color-black);background:var(--color-gold);padding:.55rem 1.2rem;margin-bottom:2rem;margin-right:.8rem;line-height:1}
+.pdp-badge2{background:transparent;color:var(--color-gold);border:1px solid var(--color-gold)}
 .pdp-title{font-family:var(--font-f-aeonik-pro) !important;font-size:clamp(3.2rem,4vw,4.8rem) !important;font-weight:400 !important;line-height:1.1 !important;letter-spacing:-.02em !important;margin:0 0 1rem !important;color:var(--color-grey) !important;display:block !important;position:static !important;width:auto !important;height:auto !important;overflow:visible !important;clip:auto !important;padding:0 !important}
 .pdp-subtitle{font-family:var(--font-f-aeonik-pro);font-size:1.4rem;font-weight:400;color:color-mix(in srgb,var(--color-grey) 55%,transparent);margin:0 0 1.6rem;line-height:1.4}
-.pdp-price{font-family:var(--font-f-aeonik-pro);font-size:1.8rem;font-weight:400;color:var(--color-grey);margin:0 0 3rem;letter-spacing:0}
+.pdp-price{font-family:var(--font-f-aeonik-pro);font-size:1.8rem;font-weight:400;color:var(--color-grey);margin:0 0 2rem;letter-spacing:0}
+.pdp-desc{font-family:var(--font-f-aeonik-pro);font-size:1.3rem;line-height:1.6;color:color-mix(in srgb,var(--color-grey) 62%,transparent);margin:0 0 3rem;font-weight:400}
 .pdp-selector-label{font-family:var(--font-f-aeonik-mono);font-size:1rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:color-mix(in srgb,var(--color-grey) 55%,transparent);margin:0 0 1.2rem}
 .pdp-designs{display:flex;gap:.8rem;margin-bottom:3rem;flex-wrap:wrap}
 .pdp-design-btn{all:unset;box-sizing:border-box;cursor:pointer;padding:1rem 2rem;font-family:var(--font-f-aeonik-mono);font-size:1.05rem;font-weight:500;letter-spacing:.1em;border:1px solid color-mix(in srgb,var(--color-grey) 18%,transparent);color:color-mix(in srgb,var(--color-grey) 65%,transparent);transition:all .35s;white-space:nowrap}
@@ -549,6 +551,16 @@ body.is-pdp .site-nav:before{background:color-mix(in srgb,var(--color-black) 94%
 .pdp-acc-content ul{list-style:none;padding:0;margin:0}
 .pdp-acc-content li{padding:.5rem 0;padding-left:1.6rem;position:relative}
 .pdp-acc-content li:before{content:"";position:absolute;left:0;top:1.1rem;width:.45rem;height:.45rem;background:var(--color-gold);transform:rotate(45deg)}
+
+/* Inline videos (right column, below accordion) */
+.pdp-inline-vids{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin:2.4rem 0}
+.pdp-iv-card{position:relative;aspect-ratio:9/16;overflow:hidden;border-radius:.5rem;background:var(--color-black);cursor:pointer}
+.pdp-iv-card video{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease-out-quart)}
+.pdp-iv-card:hover video{transform:scale(1.03)}
+.pdp-iv-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:4rem;height:4rem;border-radius:50%;background:color-mix(in srgb,var(--color-cream) 85%,transparent);display:flex;align-items:center;justify-content:center;z-index:2;transition:opacity .35s,transform .35s var(--ease-out-quart)}
+.pdp-iv-play svg{width:1.4rem;height:1.4rem;fill:var(--color-grey);margin-left:.2rem}
+.pdp-iv-card:hover .pdp-iv-play{transform:translate(-50%,-50%) scale(1.1)}
+.pdp-iv-card.is-playing .pdp-iv-play{opacity:0}
 </style>
 
 <section class="pdp-hero">
@@ -563,6 +575,8 @@ body.is-pdp .site-nav:before{background:color-mix(in srgb,var(--color-black) 94%
     <h1 class="pdp-title" id="pdpTitle">Wutai Dragon · God of Wealth</h1>
     <p class="pdp-subtitle" id="pdpSubtitle">99.9% Pure Gold Phone Blessing</p>
     <div class="pdp-price" id="pdpPrice">$29.90</div>
+
+    <p class="pdp-desc" id="pdpDesc"></p>
 
     <div class="pdp-selector-label">Select a design</div>
     <div class="pdp-designs" id="pdpDesigns"></div>
@@ -631,6 +645,18 @@ body.is-pdp .site-nav:before{background:color-mix(in srgb,var(--color-black) 94%
       </div>
     </div>
 
+    <!-- Inline Videos -->
+    <div class="pdp-inline-vids">
+      <div class="pdp-iv-card" data-video>
+        <video src="assets/products/zjlm-video1.mp4" poster="assets/products/zjlm-video1-poster.jpg" muted loop playsinline preload="metadata"></video>
+        <div class="pdp-iv-play"><svg viewBox="0 0 24 24"><polygon points="7,4 20,12 7,20"/></svg></div>
+      </div>
+      <div class="pdp-iv-card" data-video>
+        <video src="assets/products/zjlm-video2.mp4" poster="assets/products/zjlm-video2-poster.jpg" muted loop playsinline preload="metadata"></video>
+        <div class="pdp-iv-play"><svg viewBox="0 0 24 24"><polygon points="7,4 20,12 7,20"/></svg></div>
+      </div>
+    </div>
+
     <!-- Secure Payment -->
     <div class="pdp-secure">
       <div class="pdp-secure-label">Guaranteed Safe Checkout</div>
@@ -670,18 +696,62 @@ body.is-pdp .site-nav:before{background:color-mix(in srgb,var(--color-black) 94%
 .pdp-story-text{font-family:var(--font-f-aeonik-pro);font-size:1.5rem;line-height:1.65;color:color-mix(in srgb,var(--color-cream) 70%,transparent);max-width:68rem;margin:0 auto 4rem;font-weight:400}
 .pdp-story-cta{display:inline-flex;align-items:center;gap:.8rem;font-family:var(--font-f-aeonik-mono);font-size:1.05rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--color-gold);text-decoration:none;padding-bottom:.6rem;border-bottom:1px solid color-mix(in srgb,var(--color-gold) 35%,transparent);transition:gap .4s,border-color .4s,color .35s}
 .pdp-story-cta:hover{gap:1.4rem;border-bottom-color:var(--color-gold);color:var(--color-gold-light)}
+
+/* Meanings grid */
+.pdp-meanings{display:flex;flex-direction:column;gap:6rem;margin:5rem auto 6rem;max-width:90rem;text-align:left}
+@media(max-width:900px){.pdp-meanings{flex-direction:row;gap:2rem;overflow-x:auto;scroll-snap-type:x mandatory;-ms-overflow-style:none;scrollbar-width:none;margin:4rem -2.4rem 5rem;padding:0 2.4rem}}
+.pdp-meanings::-webkit-scrollbar{display:none}
+.pdp-meaning-card{display:grid;grid-template-columns:1fr 1.4fr;gap:4rem;align-items:center}
+.pdp-meaning-card:nth-child(even){direction:rtl}
+.pdp-meaning-card:nth-child(even) > *{direction:ltr}
+@media(max-width:900px){.pdp-meaning-card,.pdp-meaning-card:nth-child(even){grid-template-columns:1fr;gap:1.6rem;direction:ltr;flex:0 0 82vw;scroll-snap-align:start}}
+.pdp-meaning-card img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:brightness(.88) saturate(.9);transition:filter .6s,transform .8s var(--ease-out-quart)}
+.pdp-meaning-card:hover img{filter:brightness(1) saturate(1);transform:scale(1.02)}
+.pdp-meaning-body{display:flex;flex-direction:column;gap:1.4rem}
+.pdp-meaning-tag{font-family:var(--font-f-aeonik-mono);font-size:.9rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--color-gold);display:flex;align-items:center;gap:.8rem}
+.pdp-meaning-tag:before{content:"";width:1.6rem;height:1px;background:var(--color-gold)}
+.pdp-meaning-name{font-family:var(--font-f-aeonik-pro);font-size:clamp(2.2rem,3vw,3.2rem);font-weight:400;line-height:1.1;letter-spacing:-.02em;color:var(--color-cream);margin:0}
+.pdp-meaning-desc{font-family:var(--font-f-aeonik-pro);font-size:1.35rem;line-height:1.7;color:color-mix(in srgb,var(--color-cream) 65%,transparent);margin:0;font-weight:400}
+@media(max-width:900px){.pdp-meaning-desc{font-size:1.25rem}}
 </style>
 
 <section class="pdp-story">
-  <div class="pdp-story-eyebrow">Original IP Blessings</div>
-  <h2 class="pdp-story-heading">Sacred Gold, Daily Carried</h2>
-  <div class="pdp-story-images">
-    <img src="assets/products/phone-sticker-1.jpg" alt="Gold blessing detail" loading="lazy">
-    <img src="assets/products/phone-charm.jpg" alt="Daily carry" loading="lazy">
-    <img src="assets/products/phone-sticker-3.jpg" alt="Craftsmanship" loading="lazy">
+  <div class="pdp-story-eyebrow">Symbolism &amp; Meaning</div>
+  <h2 class="pdp-story-heading">Every Blessing Carries a Story</h2>
+  <p class="pdp-story-text">Each design in the VKGold blessing series draws from a specific deity, mountain, or sacred lineage &mdash; chosen not for decoration, but for the centuries of devotion and spiritual power they embody. Carried daily on your phone, these are not ornaments. They are intentions made tangible in 99.9% pure gold.</p>
+
+  <!-- Three Meanings Grid -->
+  <div class="pdp-meanings">
+
+    <div class="pdp-meaning-card">
+      <img src="assets/products/zjlm-pp-1.jpg" alt="Wutai Dragon" loading="lazy">
+      <div class="pdp-meaning-body">
+        <div class="pdp-meaning-tag">Wealth &amp; Prosperity</div>
+        <h3 class="pdp-meaning-name">Wutai Dragon King</h3>
+        <p class="pdp-meaning-desc">The Dragon King of Wutai Mountain (五台山龙王) is the supreme guardian of material abundance in Chinese Buddhism. Wutai &mdash; one of the Four Sacred Buddhist Mountains &mdash; is believed to be the earthly abode of Manjushri Bodhisattva, where the Dragon King controls rain, harvest, and the flow of fortune. Carrying his image invites steady wealth, business growth, and the dissolution of financial obstacles. Traditionally sought by entrepreneurs, merchants, and anyone entering a new venture.</p>
+      </div>
+    </div>
+
+    <div class="pdp-meaning-card">
+      <img src="assets/products/zjlm-pp-2.jpg" alt="Wudang Wenchang" loading="lazy">
+      <div class="pdp-meaning-body">
+        <div class="pdp-meaning-tag">Wisdom &amp; Career</div>
+        <h3 class="pdp-meaning-name">Wudang Wenchang Dijun</h3>
+        <p class="pdp-meaning-desc">Wenchang Dijun (文昌帝君) is the celestial ruler of literature, scholarship, and examinations &mdash; worshipped for over a thousand years across China. His origin traces to the Wudang Mountains, seat of Taoist cultivation and martial arts mastery. Devotees believe he governs the fate of all who sit for exams, apply for positions, or seek promotion. His blessing sharpens the mind, clears mental fog, and opens doors to academic honours and professional recognition. Favoured by students, scholars, and career-driven professionals.</p>
+      </div>
+    </div>
+
+    <div class="pdp-meaning-card">
+      <img src="assets/products/zjlm-pp-3.jpg" alt="Zaki Ram" loading="lazy">
+      <div class="pdp-meaning-body">
+        <div class="pdp-meaning-tag">Love &amp; Protection</div>
+        <h3 class="pdp-meaning-name">Zaki Ram (Tashi Lhamo)</h3>
+        <p class="pdp-meaning-desc">Zaki Ram (扎基拉姆), also known as Tashi Lhamo, is the only female wealth deity in Tibetan Buddhism &mdash; and one of the most fiercely beloved protectors in the Himalayan world. Originally a wrathful emanation of Palden Lhamo, she guards the Zaki Temple in Lhasa, where pilgrims offer white wine and butter to seek her favour. Unlike other wealth gods, Zaki Ram&rsquo;s blessings extend beyond money: she protects romantic bonds, family harmony, feminine beauty, and shields her devotees from jealousy and malice. She is especially called upon by women and those navigating matters of the heart.</p>
+      </div>
+    </div>
+
   </div>
-  <p class="pdp-story-text">From the sacred peaks of Wutai Mountain and the ancient halls of Wudang &mdash; our gold blessings unite centuries of Buddhist and Taoist tradition with modern PVD sputtering precision. Each piece carries 99.9% pure gold on a silver foil base, hand-inspected by master artisans in our Shenzhen atelier. A talisman to carry, a blessing to share.</p>
-  <a href="index.html#bestsellers" class="pdp-story-cta">Explore the Collection &rarr;</a>
+
 </section>
 
 <!-- ═══ RECOMMENDATIONS ═══ -->
