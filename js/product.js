@@ -344,56 +344,56 @@ function initPdpAnimations() {
     scrollTrigger: { trigger: '.pdp-story-text', start: 'top 85%' }
   });
 
-  // Meanings parallax
+  // Meanings scroll animations
   document.querySelectorAll('.pdp-meaning-card').forEach(function(card, i) {
+    var imgWrap = card.querySelector('.pdp-meaning-img');
     var img = card.querySelector('img');
-    var body = card.querySelector('.pdp-meaning-body');
     var tag = card.querySelector('.pdp-meaning-tag');
     var name = card.querySelector('.pdp-meaning-name');
     var desc = card.querySelector('.pdp-meaning-desc');
     var isEven = i % 2 === 1;
 
-    if (img) {
-      // Image parallax: slides up slower than scroll
-      gsap.fromTo(img,
-        { yPercent: 20, scale: 1.08 },
-        { yPercent: -10, scale: 1,
-          ease: 'none',
-          scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: 1 }
-        }
-      );
-      // Image fade in
-      gsap.fromTo(img,
-        { opacity: 0, x: isEven ? 60 : -60 },
-        { opacity: 1, x: 0, duration: 1.2, ease: 'power3.out',
-          scrollTrigger: { trigger: card, start: 'top 85%' }
-        }
-      );
+    // Image: scale down + parallax y shift on scroll (scrub)
+    if (img && imgWrap) {
+      gsap.set(img, { scale: 1.15 });
+      gsap.to(img, {
+        yPercent: -15, scale: 1,
+        ease: 'none',
+        scrollTrigger: { trigger: imgWrap, start: 'top bottom', end: 'bottom top', scrub: true }
+      });
     }
 
-    // Text content stagger
+    // Stagger reveal on enter
+    var tl = gsap.timeline({
+      scrollTrigger: { trigger: card, start: 'top 85%', once: true }
+    });
+
+    if (imgWrap) {
+      tl.fromTo(imgWrap,
+        { opacity: 0, x: isEven ? 80 : -80 },
+        { opacity: 1, x: 0, duration: 1.2, ease: 'power3.out' },
+        0
+      );
+    }
     if (tag) {
-      gsap.fromTo(tag,
-        { opacity: 0, x: isEven ? -30 : 30 },
-        { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out',
-          scrollTrigger: { trigger: card, start: 'top 80%' }
-        }
+      tl.fromTo(tag,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+        0.3
       );
     }
     if (name) {
-      gsap.fromTo(name,
+      tl.fromTo(name,
         { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1, delay: 0.1, ease: 'power3.out',
-          scrollTrigger: { trigger: card, start: 'top 80%' }
-        }
+        { opacity: 1, y: 0, duration: 1, ease: 'power3.out' },
+        0.4
       );
     }
     if (desc) {
-      gsap.fromTo(desc,
+      tl.fromTo(desc,
         { opacity: 0, y: 25 },
-        { opacity: 1, y: 0, duration: 1, delay: 0.2, ease: 'power3.out',
-          scrollTrigger: { trigger: card, start: 'top 80%' }
-        }
+        { opacity: 1, y: 0, duration: 1, ease: 'power3.out' },
+        0.55
       );
     }
   });
