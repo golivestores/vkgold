@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Last Regong Masters — VKGold Journal</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/DrawSVGPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
+</head>
+<body class="is-post">
+<div id="__nuxt"><div class="app"><div class="cursor" data-v-ed5337c0><div class="label" data-v-ed5337c0></div></div>
+
+<style>
+/* ─── Site Nav: base bar ─── */
+.site-nav{position:fixed;top:0;left:0;right:0;z-index:50;color:var(--color-cream);font-family:var(--font-f-aeonik-mono);pointer-events:none;opacity:0;transform:translate3d(0,0,0);transition:transform .55s var(--ease-out-quart);will-change:transform}
+.site-nav.is-hidden{transform:translate3d(0,-105%,0);pointer-events:none}
+.site-nav.is-ready{pointer-events:auto}
+.site-nav:before{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--color-black) 74%,transparent);-webkit-backdrop-filter:blur(1.6rem) saturate(1.2);backdrop-filter:blur(1.6rem) saturate(1.2);z-index:-1;transition:background .5s,backdrop-filter .5s}
+.site-nav.is-sticky:before{background:color-mix(in srgb,var(--color-black) 94%,transparent);-webkit-backdrop-filter:blur(2.4rem) saturate(1.35);backdrop-filter:blur(2.4rem) saturate(1.35)}
+.site-nav:after{content:"";position:absolute;bottom:0;left:6%;right:6%;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--color-gold) 55%,transparent) 25%,color-mix(in srgb,var(--color-gold) 55%,transparent) 75%,transparent);opacity:.6;pointer-events:none}
+.site-nav.is-mega-open:after{opacity:1;background:linear-gradient(90deg,transparent,var(--color-gold) 25%,var(--color-gold) 75%,transparent)}
+
+.sn-inner{position:relative;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:2rem;padding:0 4rem;height:9rem;transition:height .45s var(--ease-out-quart);max-width:180rem;margin:0 auto}
+.site-nav.is-sticky .sn-inner{height:7rem}
+@media(max-width:900px){.sn-inner{grid-template-columns:auto 1fr auto;padding:0 2.4rem;height:7rem}.site-nav.is-sticky .sn-inner{height:6rem}}
+
+/* Brand */
+.sn-brand{display:inline-flex;align-items:center;gap:1.2rem;text-decoration:none;color:var(--color-cream);transition:color .35s}
+.sn-brand .sn-mark{width:2.6rem;height:2.6rem;color:var(--color-gold);flex-shrink:0;transition:transform .6s var(--ease-out-quart)}
+.sn-brand:hover .sn-mark{transform:rotate(45deg)}
+.sn-wordmark{font-family:var(--font-f-aeonik-pro);font-weight:700;font-size:1.8rem;letter-spacing:.28em;line-height:1}
+.sn-brand:hover{color:var(--color-gold-light)}
+@media(max-width:900px){.sn-wordmark{font-size:1.5rem;letter-spacing:.22em}}
+
+/* Primary Nav (desktop center) */
+.sn-primary{justify-self:center}
+@media(max-width:900px){.sn-primary{display:none}}
+.sn-list{display:flex;gap:0;list-style:none;margin:0;padding:0}
+.sn-item{position:relative}
+.sn-link{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:.6rem;padding:0 1.35rem;height:9rem;font-family:var(--font-f-aeonik-mono);font-size:1.1rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:color-mix(in srgb,var(--color-cream) 72%,transparent);transition:color .35s var(--ease-out-quart);text-decoration:none;position:relative;white-space:nowrap}
+.site-nav.is-sticky .sn-link{height:7rem}
+.sn-link .sn-idx{font-size:.8rem;color:var(--color-gold);opacity:.55;letter-spacing:.08em;font-weight:600;margin-right:.1rem}
+.sn-link .sn-chev{width:.9rem;height:.6rem;opacity:.5;transition:transform .4s var(--ease-out-quart),opacity .35s;stroke:currentcolor}
+.sn-link:hover,.sn-item.is-open .sn-link{color:var(--color-cream)}
+.sn-item.is-open .sn-link .sn-chev{transform:rotate(180deg);opacity:1;color:var(--color-gold)}
+.sn-link:after{content:"";position:absolute;left:1.35rem;right:1.35rem;bottom:2.8rem;height:1px;background:var(--color-gold);transform:scaleX(0);transform-origin:left center;transition:transform .55s var(--ease-out-quart)}
+.site-nav.is-sticky .sn-link:after{bottom:2.2rem}
+.sn-link:hover:after,.sn-item.is-open .sn-link:after{transform:scaleX(1)}
+
+/* Right actions */
+.sn-actions{display:flex;align-items:center;gap:1.4rem;justify-self:end}
+@media(max-width:900px){.sn-actions{gap:.6rem}}
+.sn-icon-btn{all:unset;box-sizing:border-box;cursor:pointer;width:3.8rem;height:3.8rem;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;color:color-mix(in srgb,var(--color-cream) 68%,transparent);border:1px solid color-mix(in srgb,var(--color-cream) 14%,transparent);transition:color .3s,border-color .3s,background .3s,transform .35s}
+.sn-icon-btn:hover{color:var(--color-gold);border-color:color-mix(in srgb,var(--color-gold) 45%,transparent);background:color-mix(in srgb,var(--color-gold) 6%,transparent);transform:rotate(-8deg)}
+.sn-icon-btn svg{width:1.4rem;height:1.4rem;stroke:currentcolor;fill:none}
+@media(max-width:900px){.sn-icon-btn{width:3.4rem;height:3.4rem}}
+
+/* Cart indicator dot */
+.sn-cart{position:relative}
+.sn-cart-dot{position:absolute;top:.6rem;right:.8rem;width:.7rem;height:.7rem;border-radius:50%;background:var(--color-gold);border:2px solid color-mix(in srgb,var(--color-black) 85%,transparent);opacity:0;transform:scale(.5);transition:opacity .4s,transform .4s}
+.sn-cart.has-items .sn-cart-dot{opacity:1;transform:scale(1)}
+.sn-cart:hover .sn-cart-dot{background:var(--color-gold-light)}
+
+/* Burger (mobile) */
+.sn-burger{all:unset;box-sizing:border-box;cursor:pointer;width:4.4rem;height:4.4rem;display:none;position:relative;border:1px solid color-mix(in srgb,var(--color-cream) 14%,transparent);border-radius:999px}
+@media(max-width:900px){.sn-burger{display:inline-flex}}
+.sn-burger span{position:absolute;left:1.1rem;right:1.1rem;height:1px;background:var(--color-cream);transition:transform .5s var(--ease-out-quart),opacity .3s,top .4s}
+.sn-burger span:nth-child(1){top:1.5rem}
+.sn-burger span:nth-child(2){top:2.15rem}
+.sn-burger span:nth-child(3){top:2.8rem}
+.site-nav.is-drawer-open .sn-burger span:nth-child(1){top:2.15rem;transform:rotate(45deg);background:var(--color-gold)}
+.site-nav.is-drawer-open .sn-burger span:nth-child(2){opacity:0}
+.site-nav.is-drawer-open .sn-burger span:nth-child(3){top:2.15rem;transform:rotate(-45deg);background:var(--color-gold)}
+
+/* ─── MEGA PANELS ─── */
+.sn-mega{position:absolute;top:100%;left:0;right:0;background:color-mix(in srgb,var(--color-black) 97%,transparent);-webkit-backdrop-filter:blur(2.4rem);backdrop-filter:blur(2.4rem);border-top:1px solid color-mix(in srgb,var(--color-gold) 22%,transparent);opacity:0;visibility:hidden;transform:translateY(-.8rem);transition:opacity .5s var(--ease-out-quart),transform .5s var(--ease-out-quart),visibility .5s;pointer-events:none;overflow:hidden}
+.sn-mega.is-open{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
+@media(max-width:900px){.sn-mega{display:none}}
+
+.sn-mega-inner{position:relative;display:grid;grid-template-columns:24rem minmax(0,1fr) minmax(0,1fr) 28rem;gap:4.5rem;padding:5.5rem 6rem 6rem;max-width:170rem;margin:0 auto}
+@media(max-width:1280px){.sn-mega-inner{grid-template-columns:22rem 1fr 1fr 24rem;gap:3.5rem;padding:4.5rem 4rem 5rem}}
+.sn-mega-bg{position:absolute;top:-40%;right:-15%;width:70rem;height:70rem;opacity:.055;pointer-events:none;z-index:0}
+
+/* Intro column */
+.sn-col{position:relative;z-index:1;min-width:0}
+.sn-eyebrow{font-family:var(--font-f-aeonik-mono);font-size:1rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--color-gold);margin-bottom:2rem;display:flex;align-items:center;gap:.9rem}
+.sn-eyebrow:before{content:"";width:2.2rem;height:1px;background:var(--color-gold)}
+.sn-head{font-family:var(--font-f-aeonik-pro);font-size:2.9rem;font-weight:400;line-height:1.06;letter-spacing:-.02em;margin:0 0 1.5rem;color:var(--color-cream)}
+.sn-lede{font-family:var(--font-f-aeonik-pro);font-size:1.3rem;line-height:1.55;color:color-mix(in srgb,var(--color-cream) 62%,transparent);margin:0 0 3rem;max-width:26rem;font-weight:400}
+.sn-all{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--font-f-aeonik-mono);font-size:1.05rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--color-gold);text-decoration:none;padding-bottom:.6rem;border-bottom:1px solid color-mix(in srgb,var(--color-gold) 35%,transparent);transition:gap .4s,border-color .4s,color .35s}
+.sn-all:hover{gap:1.4rem;border-bottom-color:var(--color-gold);color:var(--color-gold-light)}
+
+/* Sub-lists */
+.sn-group-label{font-family:var(--font-f-aeonik-mono);font-size:.95rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:color-mix(in srgb,var(--color-cream) 50%,transparent);margin:0 0 1.8rem;padding-bottom:.9rem;border-bottom:1px solid color-mix(in srgb,var(--color-cream) 10%,transparent);display:flex;align-items:center;justify-content:space-between}
+.sn-group-label + .sn-group-label,.sn-sublist + .sn-group-label{margin-top:2.6rem}
+.sn-group-label .sn-count{font-size:.8rem;color:var(--color-gold);opacity:.6;font-weight:400}
+.sn-sublist{list-style:none;margin:0;padding:0}
+.sn-sublist a{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 0;text-decoration:none;color:color-mix(in srgb,var(--color-cream) 78%,transparent);font-family:var(--font-f-aeonik-pro);font-size:1.4rem;font-weight:400;line-height:1.25;letter-spacing:-.005em;transition:color .35s,padding-left .45s var(--ease-out-quart);border-bottom:1px solid color-mix(in srgb,var(--color-cream) 5%,transparent);position:relative}
+.sn-sublist a:hover{color:var(--color-gold-light);padding-left:1.4rem}
+.sn-sublist a .sn-arr{opacity:0;font-family:var(--font-f-aeonik-mono);font-size:1rem;color:var(--color-gold);transition:opacity .35s,transform .4s;transform:translateX(-.6rem);flex-shrink:0}
+.sn-sublist a:hover .sn-arr{opacity:1;transform:translateX(0)}
+.sn-sublist a:before{content:"";position:absolute;left:0;top:50%;width:.6rem;height:1px;background:var(--color-gold);opacity:0;transform:scaleX(0);transform-origin:left;transition:opacity .35s,transform .4s}
+.sn-sublist a:hover:before{opacity:1;transform:scaleX(1)}
+
+/* Featured card */
+.sn-feat{position:relative;z-index:1;display:block;text-decoration:none;color:var(--color-cream);background:color-mix(in srgb,var(--color-gold) 3%,transparent);border:1px solid color-mix(in srgb,var(--color-gold) 18%,transparent);overflow:hidden;transition:border-color .45s,transform .6s var(--ease-out-quart),box-shadow .5s;min-width:0}
+.sn-feat:hover{border-color:color-mix(in srgb,var(--color-gold) 55%,transparent);transform:translateY(-.6rem);box-shadow:0 3rem 6rem -2rem rgba(200,168,78,.25)}
+.sn-feat-media{position:relative;aspect-ratio:4/5;overflow:hidden;background:#0a0a0a}
+.sn-feat-media img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease-out-quart),filter .8s;filter:saturate(.85) brightness(.92)}
+.sn-feat:hover .sn-feat-media img{transform:scale(1.06);filter:saturate(1.05) brightness(1)}
+.sn-feat-media:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(10,10,10,.92));pointer-events:none}
+.sn-feat-meta{position:absolute;left:0;right:0;bottom:0;padding:2.2rem 2.4rem 2.4rem;z-index:1}
+.sn-feat-tag{font-family:var(--font-f-aeonik-mono);font-size:.85rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--color-gold);margin-bottom:.9rem;display:flex;align-items:center;gap:.7rem}
+.sn-feat-tag:before{content:"";width:1.4rem;height:1px;background:var(--color-gold)}
+.sn-feat-title{font-family:var(--font-f-aeonik-pro);font-size:1.85rem;font-weight:500;line-height:1.15;margin-bottom:1.1rem;color:var(--color-cream);letter-spacing:-.01em}
+.sn-feat-cta{font-family:var(--font-f-aeonik-mono);font-size:.95rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:color-mix(in srgb,var(--color-cream) 70%,transparent);display:inline-flex;align-items:center;gap:.6rem;transition:color .35s,gap .4s}
+.sn-feat-cta:after{content:"→"}
+.sn-feat:hover .sn-feat-cta{color:var(--color-gold-light);gap:1rem}
+
+/* ─── MOBILE DRAWER ─── */
+.sn-drawer{position:fixed;top:0;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--color-black) 98%,transparent);-webkit-backdrop-filter:blur(2.4rem);backdrop-filter:blur(2.4rem);z-index:-1;opacity:0;visibility:hidden;transition:opacity .45s,visibility .45s;overflow-y:auto;padding:9rem 2.4rem 6rem;display:none}
+@media(max-width:900px){.sn-drawer{display:block}}
+.site-nav.is-drawer-open .sn-drawer{opacity:1;visibility:visible}
+.sn-drawer-item{border-bottom:1px solid color-mix(in srgb,var(--color-cream) 10%,transparent)}
+.sn-drawer-head{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:space-between;width:100%;padding:2.4rem 0;font-family:var(--font-f-aeonik-pro);font-size:2.4rem;font-weight:400;letter-spacing:-.01em;color:var(--color-cream)}
+.sn-drawer-head .sn-d-idx{font-family:var(--font-f-aeonik-mono);font-size:1rem;letter-spacing:.14em;color:var(--color-gold);font-weight:600;opacity:.6;margin-right:1.4rem;vertical-align:middle}
+.sn-drawer-head .sn-d-plus{position:relative;width:2rem;height:2rem;color:var(--color-gold);flex-shrink:0}
+.sn-drawer-head .sn-d-plus:before,.sn-drawer-head .sn-d-plus:after{content:"";position:absolute;top:50%;left:50%;width:1.6rem;height:1px;background:currentcolor;transform:translate(-50%,-50%);transition:transform .4s}
+.sn-drawer-head .sn-d-plus:after{transform:translate(-50%,-50%) rotate(90deg)}
+.sn-drawer-item.is-open .sn-drawer-head .sn-d-plus:after{transform:translate(-50%,-50%) rotate(0deg)}
+.sn-drawer-body{max-height:0;overflow:hidden;transition:max-height .6s var(--ease-out-quart)}
+.sn-drawer-item.is-open .sn-drawer-body{max-height:160rem}
+.sn-drawer-body ul{list-style:none;margin:0;padding:0 0 1.8rem}
+.sn-drawer-body a{display:block;padding:1.1rem 0 1.1rem 2rem;font-family:var(--font-f-aeonik-pro);font-size:1.6rem;color:color-mix(in srgb,var(--color-cream) 72%,transparent);text-decoration:none;border-left:1px solid color-mix(in srgb,var(--color-cream) 10%,transparent)}
+.sn-drawer-body a:hover{color:var(--color-gold);border-left-color:var(--color-gold)}
+.sn-d-group{font-family:var(--font-f-aeonik-mono);font-size:1rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--color-gold);opacity:.65;padding:1.6rem 0 .4rem 2rem}
+.sn-drawer-cta{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:4rem;padding:2.2rem;background:var(--color-gold);color:var(--color-black);font-family:var(--font-f-aeonik-mono);font-size:1.2rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border-radius:999px}
+</style>
+<header class="site-nav" id="siteNav" aria-label="Primary">
+<div class="sn-inner">
+
+<a href="#top" class="sn-brand" aria-label="VKGold — home">
+<svg class="sn-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2 L22 8 V16 L12 22 L2 16 V8 Z" stroke="currentcolor" stroke-width="1.3"/><path d="M12 2 V22 M2 8 L22 16 M22 8 L2 16" stroke="currentcolor" stroke-width=".6" opacity=".55"/></svg>
+<span class="sn-wordmark">VKGOLD</span>
+</a>
+
+<nav class="sn-primary" aria-label="Collections">
+<ul class="sn-list">
+<li class="sn-item" data-mega="thangka"><button type="button" class="sn-link" aria-haspopup="true"><span class="sn-idx">01</span>Thangka<svg class="sn-chev" viewBox="0 0 9 6" fill="none"><path d="M1 1 L4.5 4.5 L8 1" stroke-width="1.2" stroke-linecap="round"/></svg></button></li>
+<li class="sn-item" data-mega="blessings"><button type="button" class="sn-link" aria-haspopup="true"><span class="sn-idx">02</span>Blessings<svg class="sn-chev" viewBox="0 0 9 6" fill="none"><path d="M1 1 L4.5 4.5 L8 1" stroke-width="1.2" stroke-linecap="round"/></svg></button></li>
+<li class="sn-item" data-mega="corporate"><button type="button" class="sn-link" aria-haspopup="true"><span class="sn-idx">03</span>Corporate<svg class="sn-chev" viewBox="0 0 9 6" fill="none"><path d="M1 1 L4.5 4.5 L8 1" stroke-width="1.2" stroke-linecap="round"/></svg></button></li>
+<li class="sn-item" data-mega="customise"><button type="button" class="sn-link" aria-haspopup="true"><span class="sn-idx">04</span>Customise<svg class="sn-chev" viewBox="0 0 9 6" fill="none"><path d="M1 1 L4.5 4.5 L8 1" stroke-width="1.2" stroke-linecap="round"/></svg></button></li>
+<li class="sn-item"><a class="sn-link" href="#craft"><span class="sn-idx">05</span>Craft</a></li>
+<li class="sn-item"><a class="sn-link" href="#business"><span class="sn-idx">06</span>Business</a></li>
+<li class="sn-item"><a class="sn-link" href="#contact"><span class="sn-idx">07</span>About</a></li>
+</ul>
+</nav>
+
+<div class="sn-actions">
+<button type="button" class="sn-icon-btn" aria-label="Search"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" stroke-width="1.4"/><path d="M13.5 13.5 L18 18" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+<a href="#account" class="sn-icon-btn" aria-label="Account"><svg viewBox="0 0 20 20"><circle cx="10" cy="7" r="3.2" stroke-width="1.4"/><path d="M3.5 17 C 4.5 12.4, 15.5 12.4, 16.5 17" stroke-width="1.4" stroke-linecap="round"/></svg></a>
+<a href="#cart" class="sn-icon-btn sn-cart" aria-label="Shopping bag"><svg viewBox="0 0 20 20"><path d="M5 6 L 15.5 6 L 14.6 17 L 5.4 17 Z" stroke-width="1.4" stroke-linejoin="round"/><path d="M7.6 6 V 4.6 a 2.4 2.4 0 0 1 4.8 0 V 6" stroke-width="1.4"/></svg><span class="sn-cart-dot" aria-hidden="true"></span></a>
+<button type="button" class="sn-burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+
+</div>
+
+<!-- ═══ MEGA: THANGKA ═══ -->
+<div class="sn-mega" data-mega-panel="thangka" aria-hidden="true">
+<img class="sn-mega-bg" src="assets/mandala-bg.svg" alt="">
+<div class="sn-mega-inner">
+
+<div class="sn-col sn-col-intro">
+<div class="sn-eyebrow">01 — Sacred Paintings</div>
+<h3 class="sn-head">The Thangka Collection</h3>
+<p class="sn-lede">Eleven 24K pure-gold masterworks hand-painted by UNESCO lineage masters Quzhi and Zhaxijiancuo. Consecrated, signed, and delivered in silk brocade mounting.</p>
+<a class="sn-all" href="#projects">View all 11 paintings →</a>
+</div>
+
+<div class="sn-col">
+<div class="sn-group-label"><span>Wealth Deities</span><span class="sn-count">03</span></div>
+<ul class="sn-sublist">
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Eight%20Horse%20Wealth%20Deity%20Thangka">Eight Horse Wealth Deity<span class="sn-arr">→</span></a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Yellow%20Jambhala%20Thangka">Yellow Jambhala<span class="sn-arr">→</span></a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Five%20Directional%20Wealth%20Deities%20Thangka">Five Directional Wealth Deities<span class="sn-arr">→</span></a></li>
+</ul>
+<div class="sn-group-label"><span>Protectors</span><span class="sn-count">02</span></div>
+<ul class="sn-sublist">
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Acala%20Thangka">Acala · Immovable One<span class="sn-arr">→</span></a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Four-Armed%20Avalokiteshvara%20Thangka">Four-Armed Avalokiteshvara<span class="sn-arr">→</span></a></li>
+</ul>
+</div>
+
+<div class="sn-col">
+<div class="sn-group-label"><span>Wisdom &amp; Compassion</span><span class="sn-count">06</span></div>
+<ul class="sn-sublist">
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20White%20Tara%20Thangka">White Tara<span class="sn-arr">→</span></a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Manjushri%20Thangka">Manjushri · Wisdom<span class="sn-arr">→</span></a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Samantabhadra%20Thangka">Samantabhadra · Practice<span class="sn-arr">→</span></a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Akasagarbha%20Thangka">Akasagarbha · Skywomb<span class="sn-arr">→</span></a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Sakyamuni%20Thangka">Sakyamuni Buddha<span class="sn-arr">→</span></a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Amitabha%20Thangka">Amitabha Buddha<span class="sn-arr">→</span></a></li>
+</ul>
+</div>
+
+<a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Five%20Directional%20Wealth%20Deities%20Thangka" target="_blank" rel="noopener noreferrer" class="sn-feat">
+<div class="sn-feat-media"><img src="assets/products/thangka-gold.jpg" alt="Five Directional Wealth Deities — 24K gold Thangka" loading="lazy"></div>
+<div class="sn-feat-meta">
+<div class="sn-feat-tag">Featured · 24K Gold</div>
+<div class="sn-feat-title">Five Directional Wealth Deities</div>
+<div class="sn-feat-cta">Inquire on WhatsApp</div>
+</div>
+</a>
+
+</div>
+</div>
+
+<!-- ═══ MEGA: BLESSINGS ═══ -->
+<div class="sn-mega" data-mega-panel="blessings" aria-hidden="true">
+<img class="sn-mega-bg" src="assets/mandala-bg.svg" alt="">
+<div class="sn-mega-inner">
+
+<div class="sn-col sn-col-intro">
+<div class="sn-eyebrow">02 — Gold Blessings</div>
+<h3 class="sn-head">Original IP Blessings</h3>
+<p class="sn-lede">99.9% pure gold phone stickers blending Buddhist iconography with modern PVD sputtering precision. A talisman to carry — for phone, tablet, or altar.</p>
+<a class="sn-all" href="#collections">View the collection →</a>
+</div>
+
+<div class="sn-col">
+<div class="sn-group-label"><span>Pure Gold Stickers</span><span class="sn-count">03</span></div>
+<ul class="sn-sublist">
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Wudang%20Wenchang%20Gold%20Blessing">Wudang Wenchang · Wisdom &amp; Career<span class="sn-arr">→</span></a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Wutai%20Dragon%20Wealth%20Gold%20Blessing">Wutai Dragon · God of Wealth<span class="sn-arr">→</span></a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Zaki%20Ram%20Gold%20Blessing">Zaki Ram · Love &amp; Protection<span class="sn-arr">→</span></a></li>
+</ul>
+<div class="sn-group-label" style="margin-top:3rem"><span>Use With</span></div>
+<ul class="sn-sublist">
+<li><a href="#">Mobile Phones &amp; iPads<span class="sn-arr">→</span></a></li>
+<li><a href="#">Laptops &amp; Tablets<span class="sn-arr">→</span></a></li>
+<li><a href="#">Home Altars &amp; Appliances<span class="sn-arr">→</span></a></li>
+</ul>
+</div>
+
+<div class="sn-col">
+<div class="sn-group-label"><span>Chosen For</span></div>
+<ul class="sn-sublist">
+<li><a href="#">Grand Opening Gifts<span class="sn-arr">→</span></a></li>
+<li><a href="#">Housewarming &amp; New Home<span class="sn-arr">→</span></a></li>
+<li><a href="#">Graduation Season<span class="sn-arr">→</span></a></li>
+<li><a href="#">Personal Daily Talisman<span class="sn-arr">→</span></a></li>
+<li><a href="#">Corporate Bulk Gifting<span class="sn-arr">→</span></a></li>
+</ul>
+</div>
+
+<a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%20Wutai%20Dragon%20Wealth%20Gold%20Blessing" target="_blank" rel="noopener noreferrer" class="sn-feat">
+<div class="sn-feat-media"><img src="assets/products/phone-sticker-2.jpg" alt="Wutai Dragon — pure gold phone sticker" loading="lazy"></div>
+<div class="sn-feat-meta">
+<div class="sn-feat-tag">Bestseller · $29.90</div>
+<div class="sn-feat-title">Wutai Dragon God of Wealth</div>
+<div class="sn-feat-cta">Inquire on WhatsApp</div>
+</div>
+</a>
+
+</div>
+</div>
+
+<!-- ═══ MEGA: CORPORATE ═══ -->
+<div class="sn-mega" data-mega-panel="corporate" aria-hidden="true">
+<img class="sn-mega-bg" src="assets/mandala-bg.svg" alt="">
+<div class="sn-mega-inner">
+
+<div class="sn-col sn-col-intro">
+<div class="sn-eyebrow">03 — Bespoke Gifting</div>
+<h3 class="sn-head">Corporate &amp; Bulk Gifts</h3>
+<p class="sn-lede">From Fortune 500 client gifts to bank channel exclusives — we design, manufacture and deliver cultural precious-metal pieces at scale.</p>
+<a class="sn-all" href="#business">View custom projects →</a>
+</div>
+
+<div class="sn-col">
+<div class="sn-group-label"><span>Occasions</span><span class="sn-count">04</span></div>
+<ul class="sn-sublist">
+<li><a href="#business">Grand Opening &amp; Housewarming<span class="sn-arr">→</span></a></li>
+<li><a href="#business">Wedding &amp; Anniversary<span class="sn-arr">→</span></a></li>
+<li><a href="#business">Graduation Gifts<span class="sn-arr">→</span></a></li>
+<li><a href="#business">Festive &amp; Seasonal Gifts<span class="sn-arr">→</span></a></li>
+</ul>
+</div>
+
+<div class="sn-col">
+<div class="sn-group-label"><span>Collections</span><span class="sn-count">04</span></div>
+<ul class="sn-sublist">
+<li><a href="#business">Tibetan Buddhism Gifts<span class="sn-arr">→</span></a></li>
+<li><a href="#business">Museum &amp; Heritage Gifts<span class="sn-arr">→</span></a></li>
+<li><a href="#business">Tea &amp; Wine Set Gifts<span class="sn-arr">→</span></a></li>
+<li><a href="#business">Muslim Gifts<span class="sn-arr">→</span></a></li>
+<li><a href="#business">Cultural &amp; Creative Products<span class="sn-arr">→</span></a></li>
+</ul>
+</div>
+
+<a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27d%20like%20to%20discuss%20corporate%20gifting" target="_blank" rel="noopener noreferrer" class="sn-feat">
+<div class="sn-feat-media"><img src="assets/project-1.jpg" alt="Corporate custom project" loading="lazy"></div>
+<div class="sn-feat-meta">
+<div class="sn-feat-tag">Trusted by · 600K+ delivered</div>
+<div class="sn-feat-title">Enterprise Custom Program</div>
+<div class="sn-feat-cta">Start a project</div>
+</div>
+</a>
+
+</div>
+</div>
+
+<!-- ═══ MEGA: CUSTOMISE ═══ -->
+<div class="sn-mega" data-mega-panel="customise" aria-hidden="true">
+<img class="sn-mega-bg" src="assets/mandala-bg.svg" alt="">
+<div class="sn-mega-inner">
+
+<div class="sn-col sn-col-intro">
+<div class="sn-eyebrow">04 — Your Story in Gold</div>
+<h3 class="sn-head">Customisation Cases</h3>
+<p class="sn-lede">Every commission tells a story. Share the moment, the motif, or the recipient — our atelier translates it into a gold-crafted heirloom in 15+ days.</p>
+<a class="sn-all" href="#business">Begin a commission →</a>
+</div>
+
+<div class="sn-col">
+<div class="sn-group-label"><span>Life Moments</span><span class="sn-count">05</span></div>
+<ul class="sn-sublist">
+<li><a href="#business">Graduation Season<span class="sn-arr">→</span></a></li>
+<li><a href="#business">Traditional Festivals<span class="sn-arr">→</span></a></li>
+<li><a href="#business">Wedding Keepsakes<span class="sn-arr">→</span></a></li>
+<li><a href="#business">Housewarming Blessings<span class="sn-arr">→</span></a></li>
+<li><a href="#business">Anime &amp; Original IP<span class="sn-arr">→</span></a></li>
+</ul>
+</div>
+
+<div class="sn-col">
+<div class="sn-group-label"><span>How It Works</span></div>
+<ul class="sn-sublist">
+<li><a href="#craft">01. Share your brief<span class="sn-arr">→</span></a></li>
+<li><a href="#craft">02. Artist sketch &amp; quote<span class="sn-arr">→</span></a></li>
+<li><a href="#craft">03. Master hand-crafts 15+ days<span class="sn-arr">→</span></a></li>
+<li><a href="#craft">04. Consecration &amp; signing<span class="sn-arr">→</span></a></li>
+<li><a href="#craft">05. Insured worldwide delivery<span class="sn-arr">→</span></a></li>
+</ul>
+</div>
+
+<a href="https://wa.me/65XXXXXXXX?text=Hi%2C%20I%27d%20like%20to%20start%20a%20custom%20commission" target="_blank" rel="noopener noreferrer" class="sn-feat">
+<div class="sn-feat-media"><img src="assets/project-3.jpg" alt="Custom commission sample" loading="lazy"></div>
+<div class="sn-feat-meta">
+<div class="sn-feat-tag">Bespoke · From 15 days</div>
+<div class="sn-feat-title">Commission an Heirloom</div>
+<div class="sn-feat-cta">Start on WhatsApp</div>
+</div>
+</a>
+
+</div>
+</div>
+
+<!-- ═══ MOBILE DRAWER ═══ -->
+<aside class="sn-drawer" aria-label="Mobile menu">
+
+<div class="sn-drawer-item">
+<button type="button" class="sn-drawer-head"><span><span class="sn-d-idx">01</span>Thangka</span><span class="sn-d-plus" aria-hidden="true"></span></button>
+<div class="sn-drawer-body">
+<div class="sn-d-group">Wealth Deities</div>
+<ul>
+<li><a href="https://wa.me/65XXXXXXXX?text=Eight%20Horse%20Wealth%20Deity">Eight Horse Wealth Deity</a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Yellow%20Jambhala">Yellow Jambhala</a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Five%20Directional%20Wealth%20Deities">Five Directional Wealth Deities</a></li>
+</ul>
+<div class="sn-d-group">Wisdom &amp; Compassion</div>
+<ul>
+<li><a href="https://wa.me/65XXXXXXXX?text=White%20Tara">White Tara</a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Manjushri">Manjushri</a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Samantabhadra">Samantabhadra</a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Akasagarbha">Akasagarbha</a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Sakyamuni">Sakyamuni Buddha</a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Amitabha">Amitabha Buddha</a></li>
+</ul>
+<div class="sn-d-group">Protectors</div>
+<ul>
+<li><a href="https://wa.me/65XXXXXXXX?text=Acala">Acala</a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Four-Armed%20Avalokiteshvara">Four-Armed Avalokiteshvara</a></li>
+</ul>
+</div>
+</div>
+
+<div class="sn-drawer-item">
+<button type="button" class="sn-drawer-head"><span><span class="sn-d-idx">02</span>Blessings</span><span class="sn-d-plus" aria-hidden="true"></span></button>
+<div class="sn-drawer-body">
+<div class="sn-d-group">Pure Gold Stickers</div>
+<ul>
+<li><a href="https://wa.me/65XXXXXXXX?text=Wudang%20Wenchang">Wudang Wenchang · Wisdom</a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Wutai%20Dragon">Wutai Dragon · Wealth</a></li>
+<li><a href="https://wa.me/65XXXXXXXX?text=Zaki%20Ram">Zaki Ram · Love</a></li>
+</ul>
+</div>
+</div>
+
+<div class="sn-drawer-item">
+<button type="button" class="sn-drawer-head"><span><span class="sn-d-idx">03</span>Corporate</span><span class="sn-d-plus" aria-hidden="true"></span></button>
+<div class="sn-drawer-body">
+<div class="sn-d-group">Occasions</div>
+<ul>
+<li><a href="#business">Grand Opening &amp; Housewarming</a></li>
+<li><a href="#business">Wedding &amp; Anniversary</a></li>
+<li><a href="#business">Graduation Gifts</a></li>
+<li><a href="#business">Festive &amp; Seasonal</a></li>
+</ul>
+<div class="sn-d-group">Collections</div>
+<ul>
+<li><a href="#business">Tibetan Buddhism Gifts</a></li>
+<li><a href="#business">Museum Gifts</a></li>
+<li><a href="#business">Tea &amp; Wine Sets</a></li>
+<li><a href="#business">Muslim Gifts</a></li>
+<li><a href="#business">Cultural &amp; Creative</a></li>
+</ul>
+</div>
+</div>
+
+<div class="sn-drawer-item">
+<button type="button" class="sn-drawer-head"><span><span class="sn-d-idx">04</span>Customise</span><span class="sn-d-plus" aria-hidden="true"></span></button>
+<div class="sn-drawer-body">
+<div class="sn-d-group">Life Moments</div>
+<ul>
+<li><a href="#business">Graduation Season</a></li>
+<li><a href="#business">Traditional Festivals</a></li>
+<li><a href="#business">Wedding Keepsakes</a></li>
+<li><a href="#business">Housewarming Blessings</a></li>
+<li><a href="#business">Anime &amp; Original IP</a></li>
+</ul>
+</div>
+</div>
+
+<div class="sn-drawer-item">
+<a href="#craft" class="sn-drawer-head"><span><span class="sn-d-idx">05</span>Craft</span></a>
+</div>
+
+<div class="sn-drawer-item">
+<a href="#business" class="sn-drawer-head"><span><span class="sn-d-idx">06</span>Business</span></a>
+</div>
+
+<div class="sn-drawer-item">
+<a href="#contact" class="sn-drawer-head"><span><span class="sn-d-idx">07</span>About</span></a>
+</div>
+
+<a href="https://wa.me/65XXXXXXXX?text=Hi%20VKGold" target="_blank" rel="noopener noreferrer" class="sn-drawer-cta"><span class="sn-cta-dot"></span>Chat on WhatsApp</a>
+
+</aside>
+
+
+<main class="main"><div class="scroll" data-v-eefc1d23><div class="content" data-v-eefc1d23><div class="post-page">
+
+<style>
+/* ─── Post page: nav always opaque ─── */
+body.is-post .site-nav:before{background:color-mix(in srgb,var(--color-black) 94%,transparent) !important;-webkit-backdrop-filter:blur(2.4rem) saturate(1.35) !important;backdrop-filter:blur(2.4rem) saturate(1.35) !important}
+
+/* ─── Layout ─── */
+.post-page{padding-top:10rem}
+@media(max-width:900px){.post-page{padding-top:7.5rem}}
+
+/* ─── Breadcrumb ─── */
+.pt-breadcrumb{padding:0 6rem;font-family:var(--font-f-aeonik-mono);font-size:1.05rem;letter-spacing:.08em;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+@media(max-width:900px){.pt-breadcrumb{padding:1.6rem 2.4rem 0}}
+.pt-breadcrumb a{color:color-mix(in srgb,var(--color-grey) 45%,transparent);text-decoration:none;transition:color .3s}
+.pt-breadcrumb a:hover{color:var(--color-gold)}
+.pt-breadcrumb .sep{color:color-mix(in srgb,var(--color-grey) 25%,transparent);font-size:.85rem}
+.pt-breadcrumb .current{color:var(--color-grey)}
+
+/* ─── Article header ─── */
+.pt-header{max-width:80rem;margin:4rem auto 0;padding:0 6rem;text-align:center}
+@media(max-width:900px){.pt-header{padding:0 2.4rem;margin-top:3rem}}
+
+.pt-category{display:inline-block;font-family:var(--font-f-aeonik-mono);font-size:1rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--color-gold);border:1px solid color-mix(in srgb,var(--color-gold) 40%,transparent);border-radius:999px;padding:.5rem 1.8rem;margin-bottom:2.4rem}
+
+.pt-title{font-family:var(--font-f-aeonik-pro);font-weight:600;font-size:clamp(2.8rem,5vw,5.6rem);line-height:1.12;letter-spacing:-.02em;color:var(--color-grey);margin:0 0 2.4rem}
+
+.pt-meta{display:flex;align-items:center;justify-content:center;gap:2rem;font-family:var(--font-f-aeonik-mono);font-size:1.05rem;letter-spacing:.08em;color:color-mix(in srgb,var(--color-grey) 55%,transparent);flex-wrap:wrap}
+.pt-meta .pt-dot{width:3px;height:3px;border-radius:50%;background:var(--color-gold);opacity:.6;flex-shrink:0}
+
+/* ─── Hero image ─── */
+.pt-hero{max-width:80rem;margin:4.8rem auto 0;padding:0 6rem}
+@media(max-width:900px){.pt-hero{padding:0 2.4rem;margin-top:3.2rem}}
+.pt-hero-img{width:100%;aspect-ratio:21/9;object-fit:cover;border-radius:1.2rem;display:block}
+
+/* ─── Article body ─── */
+.pt-body{max-width:72rem;margin:5.6rem auto 0;padding:0 6rem}
+@media(max-width:900px){.pt-body{padding:0 2.4rem;margin-top:4rem}}
+
+.pt-body p{font-family:var(--font-f-aeonik-pro);font-size:1.8rem;line-height:1.75;color:color-mix(in srgb,var(--color-grey) 80%,transparent);margin:0 0 2.4rem}
+@media(max-width:900px){.pt-body p{font-size:1.6rem}}
+
+.pt-body h3{font-family:var(--font-f-aeonik-pro);font-size:2.4rem;font-weight:500;color:var(--color-grey);margin:4.8rem 0 2rem;padding-bottom:1.2rem;border-bottom:2px solid var(--color-gold);display:inline-block}
+@media(max-width:900px){.pt-body h3{font-size:2rem}}
+
+.pt-body blockquote{margin:3.6rem 0;padding:2rem 0 2rem 3.2rem;border-left:3px solid var(--color-gold);font-family:var(--font-f-aeonik-pro);font-size:2rem;font-style:italic;line-height:1.7;color:color-mix(in srgb,var(--color-grey) 72%,transparent)}
+@media(max-width:900px){.pt-body blockquote{padding-left:2rem;font-size:1.7rem;margin:2.8rem 0}}
+
+.pt-body figure{margin:4rem 0}
+.pt-body figure img{width:100%;border-radius:1rem;display:block}
+.pt-body figure figcaption{font-family:var(--font-f-aeonik-mono);font-size:1.05rem;letter-spacing:.06em;color:color-mix(in srgb,var(--color-grey) 50%,transparent);margin-top:1.2rem;text-align:center}
+
+/* ─── Author bio ─── */
+.pt-author{max-width:72rem;margin:6rem auto 0;padding:0 6rem}
+@media(max-width:900px){.pt-author{padding:0 2.4rem;margin-top:4rem}}
+
+.pt-author-card{display:flex;align-items:center;gap:2.4rem;padding:3.2rem;border:1px solid color-mix(in srgb,var(--color-gold) 22%,transparent);border-radius:1.2rem;background:color-mix(in srgb,var(--color-cream) 60%,white)}
+@media(max-width:600px){.pt-author-card{flex-direction:column;text-align:center;gap:1.6rem;padding:2.4rem}}
+
+.pt-avatar{width:7rem;height:7rem;border-radius:50%;background:var(--color-gold);display:flex;align-items:center;justify-content:center;font-family:var(--font-f-aeonik-pro);font-weight:700;font-size:2rem;color:var(--color-cream);flex-shrink:0;letter-spacing:.06em}
+
+.pt-author-info{flex:1}
+.pt-author-name{font-family:var(--font-f-aeonik-pro);font-size:1.6rem;font-weight:600;color:var(--color-grey);margin:0 0 .4rem}
+.pt-author-bio{font-family:var(--font-f-aeonik-pro);font-size:1.4rem;line-height:1.6;color:color-mix(in srgb,var(--color-grey) 65%,transparent);margin:0 0 1rem}
+.pt-author-link{font-family:var(--font-f-aeonik-mono);font-size:1.05rem;letter-spacing:.12em;text-transform:uppercase;color:var(--color-gold);text-decoration:none;transition:opacity .3s}
+.pt-author-link:hover{opacity:.7}
+
+/* ─── Related articles ─── */
+.pt-related{max-width:80rem;margin:8rem auto 0;padding:0 6rem}
+@media(max-width:900px){.pt-related{padding:0 2.4rem;margin-top:5.6rem}}
+
+.pt-related-eyebrow{font-family:var(--font-f-aeonik-mono);font-size:1.1rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--color-gold);margin-bottom:3.6rem;display:flex;align-items:center;gap:1.2rem}
+.pt-related-eyebrow::before{content:"";width:2.4rem;height:1px;background:var(--color-gold)}
+
+.pt-related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.8rem}
+@media(max-width:900px){.pt-related-grid{grid-template-columns:1fr;gap:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:1.6rem;margin:0 -2.4rem;padding-left:2.4rem;padding-right:2.4rem}
+.pt-related-grid::-webkit-scrollbar{display:none}}
+
+.pt-card{text-decoration:none;display:block;border-radius:1rem;overflow:hidden;background:white;border:1px solid color-mix(in srgb,var(--color-grey) 8%,transparent);transition:transform .4s var(--ease-out-quart),box-shadow .4s}
+.pt-card:hover{transform:translateY(-4px);box-shadow:0 1.2rem 3.6rem color-mix(in srgb,var(--color-black) 8%,transparent)}
+@media(max-width:900px){.pt-card{min-width:28rem;scroll-snap-align:start;flex-shrink:0}}
+
+.pt-card-img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block}
+.pt-card-body{padding:2rem 2rem 2.4rem}
+.pt-card-cat{font-family:var(--font-f-aeonik-mono);font-size:.95rem;letter-spacing:.22em;text-transform:uppercase;color:var(--color-gold);margin-bottom:.6rem;display:flex;align-items:center;gap:.8rem}
+.pt-card-cat::before{content:"";width:1.2rem;height:1px;background:var(--color-gold)}
+.pt-card-title{font-family:var(--font-f-aeonik-pro);font-size:1.5rem;font-weight:500;line-height:1.4;color:var(--color-grey);margin:0}
+
+/* ─── Bottom spacing ─── */
+.pt-spacer{height:8rem}
+@media(max-width:900px){.pt-spacer{height:5rem}}
+</style>
+
+<!-- ═══ BREADCRUMB ═══ -->
+<nav class="pt-breadcrumb" aria-label="Breadcrumb">
+  <a href="/">Home</a>
+  <span class="sep">/</span>
+  <a href="/journal">Journal</a>
+  <span class="sep">/</span>
+  <span class="current">The Last Regong Masters</span>
+</nav>
+
+<!-- ═══ ARTICLE HEADER ═══ -->
+<header class="pt-header">
+  <span class="pt-category">Heritage</span>
+  <h2 class="pt-title">The Last Regong Masters: Guardians of a Dying Art</h2>
+  <div class="pt-meta">
+    <span>12 April 2026</span>
+    <span class="pt-dot"></span>
+    <span>8 min read</span>
+    <span class="pt-dot"></span>
+    <span>VKGold Atelier</span>
+  </div>
+</header>
+
+<!-- ═══ HERO IMAGE ═══ -->
+<div class="pt-hero">
+  <img class="pt-hero-img" src="assets/products/thangka-hero.jpg" alt="Panoramic view of a Regong Thangka master at work in his mountain studio">
+</div>
+
+<!-- ═══ ARTICLE BODY ═══ -->
+<article class="pt-body">
+
+  <p>Tucked into a narrow valley where the Longwu River carves through the eastern Tibetan Plateau, the town of Regong sits at 2,500 metres above sea level in Qinghai province. Known in Tibetan as Rebgong, meaning "golden cradle," this remote settlement of roughly 30,000 people has produced some of the most extraordinary sacred art in human history. For over seven centuries, Regong has been the epicentre of Thangka painting, a tradition so culturally significant that UNESCO inscribed "Regong Arts" on its Representative List of the Intangible Cultural Heritage of Humanity in 2009.</p>
+
+  <p>The recognition was well-earned but bittersweet. At the time of inscription, fewer than fifty master-level Thangka painters remained active in the valley. Today, that number has dwindled further. The younger generation, drawn to the cities by economic opportunity and digital connectivity, increasingly views the decade-long apprenticeship required to master this art as an impractical relic. What UNESCO sought to protect continues to slip quietly away, one retiring master at a time.</p>
+
+  <h3>The Lineage of Quzhi and Zhaxijiancuo</h3>
+
+  <p>Among the remaining masters, two names command particular reverence: Quzhi (曲智) and Zhaxijiancuo (扎西尖措). Both trace their artistic lineage directly to the Menlha school, the oldest continuous tradition of Thangka painting in Regong, established in the fourteenth century. Quzhi, now in his late sixties, began his training at age nine under his uncle, himself a master of the previous generation. He recalls grinding mineral pigments by hand before dawn, a task he performed daily for three years before he was permitted to touch a brush to canvas. Zhaxijiancuo, a generation younger at fifty-two, trained under Quzhi for twelve years and now leads the last formal atelier in the valley where apprentices still learn the traditional way.</p>
+
+  <figure>
+    <img src="assets/products/thangka-gold.jpg" alt="Detail of gold leaf application on a Thangka depicting Shakyamuni Buddha">
+    <figcaption>Gold leaf application on a Regong Thangka -- a single deity figure requires up to 40 sheets of 24K gold leaf, each thinner than a human hair.</figcaption>
+  </figure>
+
+  <p>The process of creating a single Thangka is painstaking beyond what most modern viewers can comprehend. A large work measuring one metre by 1.5 metres takes between six months and two years to complete. The canvas, made from hand-woven cotton, is first stretched and treated with a mixture of yak-skin glue and chalk. The master then sketches the composition using charcoal made from willow branches, following iconographic proportions codified in Buddhist texts that have remained unchanged for centuries. Every measurement -- the distance between a deity's eyes, the angle of a hand mudra, the ratio of a lotus petal to the full mandala -- must be mathematically precise. An error of even two millimetres is considered spiritually unacceptable.</p>
+
+  <blockquote>
+    "We do not paint for galleries or collectors. Each stroke is a prayer, each colour an offering. When I open the eyes of the Buddha, I am not finishing a painting -- I am inviting a consciousness to dwell within it." -- Master Quzhi, recorded during a 2024 interview in Regong
+  </blockquote>
+
+  <h3>Pigments, Gold, and the Eye-Opening Ceremony</h3>
+
+  <p>The pigments used in Regong Thangkas are derived entirely from minerals and organic materials sourced from the surrounding plateau. Azurite provides the iconic deep blue of Amitabha's robe. Malachite yields the green of Tara's skin. Cinnabar gives the red of sacred flames. These minerals are ground by hand with mortar and pestle, mixed with hide glue, and layered in thin washes -- sometimes thirty or more layers for a single colour field. The gold work, perhaps the most distinctive feature of Regong Thangkas, uses 24-karat gold leaf hammered to a thickness of 0.1 microns, applied with a brush made from the ear hair of a Himalayan yak calf. The gold lines that trace halos, flames, and textile patterns are drawn freehand, requiring a steady hand and complete breath control.</p>
+
+  <figure>
+    <img src="assets/products/thangka-color.jpg" alt="Close-up of mineral pigment palette used in traditional Regong Thangka painting">
+    <figcaption>The mineral pigment palette of a Regong master -- crushed azurite, malachite, cinnabar, and orpiment, unchanged since the 14th century.</figcaption>
+  </figure>
+
+  <p>The final act of creation is the "eye-opening ceremony" (开眼), a ritual that transforms the Thangka from a decorative object into a sacred presence. Performed by the master painter in conjunction with a lama, the ceremony involves inscribing the pupils of the central deity at an astrologically auspicious moment. Until this moment, the painting is considered incomplete, a body without a soul. After the eyes are opened, the Thangka is consecrated with mantras written in gold on its reverse side and sealed with the lama's blessing. It is this ceremony that distinguishes a Regong Thangka from a decorative reproduction -- and it is this ceremony that cannot be replicated by a machine or an untrained hand.</p>
+
+  <p>VKGold's partnership with the Regong ateliers represents a deliberate effort to create a sustainable bridge between these masters and the collectors of Southeast Asia. By commissioning works directly from Quzhi, Zhaxijiancuo, and their senior apprentices, VKGold ensures that fair compensation reaches the artists who spend months or years on a single piece. Each Thangka shipped to Singapore arrives with full documentation of its provenance, the master's seal, a certificate of the eye-opening ceremony, and a detailed account of the pigments and gold used. It is not merely a purchase; it is participation in the preservation of a living tradition. As Master Zhaxijiancuo has said, "A Thangka that finds a devoted home is a Thangka that keeps our art alive."</p>
+
+</article>
+
+<!-- ═══ AUTHOR BIO ═══ -->
+<div class="pt-author">
+  <div class="pt-author-card">
+    <div class="pt-avatar">VA</div>
+    <div class="pt-author-info">
+      <p class="pt-author-name">VKGold Atelier</p>
+      <p class="pt-author-bio">The editorial voice of VKGold, bridging the sacred art traditions of Regong and the Tibetan Plateau with collectors and devotees across Southeast Asia.</p>
+      <a class="pt-author-link" href="https://wa.me/65XXXXXXXX?text=Hi%20VKGold" target="_blank" rel="noopener noreferrer">Chat on WhatsApp &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RELATED ARTICLES ═══ -->
+<section class="pt-related">
+  <div class="pt-related-eyebrow">Continue Reading</div>
+  <div class="pt-related-grid">
+
+    <a class="pt-card" href="post.html?slug=gold-leaf-process">
+      <img class="pt-card-img" src="assets/products/thangka-gold.jpg" alt="Gold leaf process">
+      <div class="pt-card-body">
+        <div class="pt-card-cat">Craft</div>
+        <p class="pt-card-title">From Ore to Altar: The 24K Gold Leaf Process</p>
+      </div>
+    </a>
+
+    <a class="pt-card" href="post.html?slug=gold-blessings-singapore">
+      <img class="pt-card-img" src="assets/products/zjlm-4.jpg" alt="Gold blessing charm">
+      <div class="pt-card-body">
+        <div class="pt-card-cat">Culture</div>
+        <p class="pt-card-title">Why Singaporeans Carry Gold Blessings</p>
+      </div>
+    </a>
+
+    <a class="pt-card" href="post.html?slug=eye-opening-ceremony">
+      <img class="pt-card-img" src="assets/products/thangka-color.jpg" alt="Eye-opening ceremony">
+      <div class="pt-card-body">
+        <div class="pt-card-cat">Heritage</div>
+        <p class="pt-card-title">The Eye-Opening Ceremony</p>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<div class="pt-spacer"></div>
+
+</div><!-- /post-page -->
+
+<!-- ═══ SITE FOOTER ═══ -->
+<style>
+.site-footer{position:relative;background:var(--color-black);color:var(--color-cream);overflow:hidden;padding:14rem 0 4rem;font-family:var(--font-f-aeonik-pro);margin-top:0}
+@media(max-width:900px){.site-footer{padding:9rem 0 3rem}}
+.sf-bg{position:absolute;inset:0;z-index:0;opacity:.22;pointer-events:none}
+.sf-bg img{width:100%;height:100%;object-fit:cover;filter:sepia(.2) brightness(.55) saturate(1.3)}
+.sf-bg:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 90% at 50% 40%,transparent 0%,var(--color-black) 78%),linear-gradient(180deg,var(--color-black) 0%,transparent 20%,transparent 75%,var(--color-black) 100%)}
+.sf-inner{position:relative;z-index:1;max-width:170rem;margin:0 auto;padding:0 6rem}
+@media(max-width:900px){.sf-inner{padding:0 2.4rem}}
+.sf-top{display:grid;grid-template-columns:1fr 1fr;gap:8rem;padding-bottom:8rem;border-bottom:1px solid color-mix(in srgb,var(--color-gold) 22%,transparent)}
+@media(max-width:900px){.sf-top{grid-template-columns:1fr;gap:5rem;padding-bottom:5rem}}
+.sf-brand{max-width:46rem;min-width:0}
+.sf-mark{width:4.2rem;height:4.2rem;color:var(--color-gold);display:block;margin-bottom:2.2rem}
+.sf-wordmark{font-family:var(--font-f-aeonik-pro);font-weight:700;font-size:3.2rem;letter-spacing:.22em;color:var(--color-cream);margin-bottom:2.4rem;line-height:1}
+.sf-tagline{font-size:1.5rem;line-height:1.6;color:color-mix(in srgb,var(--color-cream) 62%,transparent);margin:0;max-width:42rem;font-weight:400}
+.sf-newsletter{justify-self:end;max-width:48rem;width:100%;min-width:0}
+@media(max-width:900px){.sf-newsletter{justify-self:stretch}}
+.sf-news-label{font-family:var(--font-f-aeonik-mono);font-size:1rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--color-gold);margin-bottom:1.8rem;display:flex;align-items:center;gap:.9rem}
+.sf-news-label:before{content:"";width:2.2rem;height:1px;background:var(--color-gold)}
+.sf-news-head{font-family:var(--font-f-aeonik-pro);font-size:2.6rem;font-weight:400;line-height:1.12;letter-spacing:-.02em;margin:0 0 3rem;color:var(--color-cream)}
+@media(max-width:600px){.sf-news-head{font-size:2rem}}
+.sf-news-form{display:flex;align-items:center;gap:0;border-bottom:1px solid color-mix(in srgb,var(--color-cream) 25%,transparent);padding-bottom:.4rem;transition:border-bottom-color .4s}
+.sf-news-form:focus-within{border-bottom-color:var(--color-gold)}
+.sf-news-form input{flex:1;all:unset;font-family:var(--font-f-aeonik-pro);font-size:1.5rem;color:var(--color-cream);padding:1.4rem .4rem;min-width:0;box-sizing:border-box}
+.sf-news-form input::placeholder{color:color-mix(in srgb,var(--color-cream) 35%,transparent)}
+.sf-news-form button{all:unset;cursor:pointer;font-family:var(--font-f-aeonik-mono);font-size:1.6rem;color:var(--color-gold);padding:1.4rem 1rem;transition:color .35s,transform .35s}
+.sf-news-form button:hover{color:var(--color-gold-light);transform:translateX(.4rem)}
+.sf-news-hint{font-family:var(--font-f-aeonik-mono);font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;color:color-mix(in srgb,var(--color-cream) 35%,transparent);margin-top:1.4rem}
+.sf-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:4rem;padding:6rem 0}
+@media(max-width:900px){.sf-cols{grid-template-columns:repeat(2,1fr);gap:3rem;padding:4rem 0}}
+@media(max-width:500px){.sf-cols{grid-template-columns:1fr}}
+.sf-col-label{font-family:var(--font-f-aeonik-mono);font-size:1rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--color-gold);margin-bottom:2rem;display:flex;align-items:center;gap:.7rem}
+.sf-col-label:before{content:"+";color:var(--color-gold);font-size:1.1rem}
+.sf-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.8rem}
+.sf-col a{font-family:var(--font-f-aeonik-pro);font-size:1.3rem;color:color-mix(in srgb,var(--color-cream) 62%,transparent);text-decoration:none;transition:color .35s;display:block;padding:.3rem 0}
+.sf-col a:hover{color:var(--color-gold)}
+.sf-contact{display:grid;grid-template-columns:repeat(3,1fr);gap:4rem;padding:5rem 0;border-top:1px solid color-mix(in srgb,var(--color-cream) 10%,transparent)}
+@media(max-width:900px){.sf-contact{grid-template-columns:1fr;gap:3rem;padding:3.5rem 0}}
+.sf-addr{font-size:1.25rem;line-height:1.6;color:color-mix(in srgb,var(--color-cream) 62%,transparent)}
+.sf-cc-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.8rem}
+.sf-cc-list a{font-size:1.25rem;color:color-mix(in srgb,var(--color-cream) 62%,transparent);text-decoration:none;transition:color .35s}
+.sf-cc-list a:hover{color:var(--color-gold)}
+.sf-social{display:flex;gap:1.4rem}
+.sf-social a{width:3.6rem;height:3.6rem;display:inline-flex;align-items:center;justify-content:center;border:1px solid color-mix(in srgb,var(--color-cream) 15%,transparent);border-radius:50%;color:color-mix(in srgb,var(--color-cream) 55%,transparent);transition:color .35s,border-color .35s,transform .35s;text-decoration:none}
+.sf-social a:hover{color:var(--color-gold);border-color:color-mix(in srgb,var(--color-gold) 45%,transparent);transform:rotate(-8deg)}
+.sf-social svg{width:1.6rem;height:1.6rem;stroke:currentcolor;fill:none;stroke-width:1.2}
+.sf-giant{font-family:var(--font-f-aeonik-pro);font-weight:700;font-size:clamp(6rem,12vw,18rem);letter-spacing:.15em;text-align:center;color:color-mix(in srgb,var(--color-cream) 5%,transparent);line-height:.85;margin:5rem 0 4rem;overflow:hidden;white-space:nowrap}
+.sf-legal{display:flex;align-items:flex-start;justify-content:space-between;gap:3rem;padding-top:3rem;border-top:1px solid color-mix(in srgb,var(--color-cream) 10%,transparent);font-family:var(--font-f-aeonik-mono);font-size:.95rem;letter-spacing:.08em;color:color-mix(in srgb,var(--color-cream) 48%,transparent)}
+@media(max-width:900px){.sf-legal{flex-direction:column;gap:1.8rem}}
+.sf-copy{max-width:62rem;line-height:1.65}
+.sf-legal-links{display:flex;gap:2.5rem;align-items:center;flex-wrap:wrap}
+.sf-legal-links a{color:inherit;text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--color-cream) 15%,transparent);transition:color .35s,border-color .35s;padding-bottom:.2rem}
+.sf-legal-links a:hover{color:var(--color-gold);border-bottom-color:var(--color-gold)}
+.sf-made{color:color-mix(in srgb,var(--color-cream) 38%,transparent);font-style:italic;letter-spacing:.12em;text-transform:uppercase;font-size:.88rem}
+</style>
+
+<footer class="site-footer" id="contact">
+<div class="sf-bg"><img src="assets/end.jpg" alt="" loading="lazy"></div>
+<div class="sf-inner">
+
+<div class="sf-top">
+<div class="sf-brand">
+<svg class="sf-mark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2 L22 8 V16 L12 22 L2 16 V8 Z" stroke="currentcolor" stroke-width="1.3"/><path d="M12 2 V22 M2 8 L22 16 M22 8 L2 16" stroke="currentcolor" stroke-width=".6" opacity=".55"/></svg>
+<div class="sf-wordmark">VKGOLD</div>
+<p class="sf-tagline">Sacred art, crafted in gold. Hand-painted Thangka masterpieces by UNESCO Regong lineage artists &mdash; each piece carries centuries of Buddhist tradition and 24K pure gold.</p>
+</div>
+<div class="sf-newsletter">
+<div class="sf-news-label">Join the atelier</div>
+<h3 class="sf-news-head">New commissions, master stories and collector editions &mdash; delivered quarterly.</h3>
+<form class="sf-news-form" onsubmit="event.preventDefault();this.querySelector('input').value='';this.querySelector('button').textContent='\u2713';setTimeout(()=>this.querySelector('button').textContent='\u2192',2000);">
+<input type="email" required placeholder="your email address" aria-label="Email address">
+<button type="submit" aria-label="Subscribe">&rarr;</button>
+</form>
+<p class="sf-news-hint">No spam &middot; Unsubscribe anytime</p>
+</div>
+</div>
+
+<div class="sf-cols">
+<div class="sf-col"><h4 class="sf-col-label">Shop</h4><ul>
+<li><a href="#">Thangka Collection</a></li><li><a href="#">Gold Blessings</a></li><li><a href="#">Corporate Gifts</a></li><li><a href="#">Customisation</a></li><li><a href="#">The Nine Bodhisattvas</a></li>
+</ul></div>
+<div class="sf-col"><h4 class="sf-col-label">Discover</h4><ul>
+<li><a href="#">Our Craft Process</a></li><li><a href="#">Heritage &amp; Masters</a></li><li><a href="#">Iconography Guide</a></li><li><a href="#">For Business</a></li><li><a href="#">Sizing &amp; Meanings</a></li>
+</ul></div>
+<div class="sf-col"><h4 class="sf-col-label">Company</h4><ul>
+<li><a href="#">About VKGold</a></li><li><a href="#">Contact</a></li><li><a href="#">Press &amp; Media</a></li><li><a href="#">Atelier Visit</a></li><li><a href="#">Careers</a></li>
+</ul></div>
+<div class="sf-col"><h4 class="sf-col-label">Support</h4><ul>
+<li><a href="#">Shipping &amp; Delivery</a></li><li><a href="#">Returns &amp; Exchange</a></li><li><a href="#">Certificate of Authenticity</a></li><li><a href="#">Care &amp; Consecration</a></li><li><a href="#">FAQ</a></li>
+</ul></div>
+</div>
+
+<div class="sf-contact">
+<div class="sf-cc"><h4 class="sf-col-label">Registered Office</h4><p class="sf-addr"><strong>Galaxy Stone Co., Limited</strong><br>19H Maxgrand Plaza, No.3 Tai Yau Street<br>San Po Kong, Kowloon, Hong Kong</p></div>
+<div class="sf-cc"><h4 class="sf-col-label">Get in Touch</h4><ul class="sf-cc-list">
+<li><a href="mailto:gift@lanbowanltd.com">gift@lanbowanltd.com</a></li><li><a href="tel:+6500000000">+65 XXXX XXXX</a></li><li><a href="https://wa.me/65XXXXXXXX?text=Hi%20VKGold" target="_blank" rel="noopener noreferrer">WhatsApp Consultation</a></li>
+</ul></div>
+<div class="sf-cc"><h4 class="sf-col-label">Follow</h4><div class="sf-social">
+<a href="#" aria-label="Instagram"><svg viewBox="0 0 20 20"><rect x="3" y="3" width="14" height="14" rx="3.5"/><circle cx="10" cy="10" r="3.5"/><circle cx="14.6" cy="5.4" r=".7" fill="currentcolor" stroke="none"/></svg></a>
+<a href="#" aria-label="TikTok"><svg viewBox="0 0 20 20"><path d="M12 3 V 13 A 3.6 3.6 0 1 1 8.4 9.4" stroke-linecap="round"/><path d="M12 3 A 3.3 3.3 0 0 0 15.3 6.3" stroke-linecap="round"/></svg></a>
+<a href="https://wa.me/65XXXXXXXX?text=Hi%20VKGold" aria-label="WhatsApp"><svg viewBox="0 0 20 20"><path d="M3 17 L 4.4 13.4 A 7.2 7.2 0 1 1 7 16 L 3 17 Z" stroke-linejoin="round" stroke-linecap="round"/></svg></a>
+</div></div>
+</div>
+
+<div class="sf-giant" aria-hidden="true">VKGOLD</div>
+
+<div class="sf-legal">
+<div class="sf-copy">&copy;2026 VKGold &middot; Shenzhen Jinxi Cultural Development Co., Ltd &middot; Operated by Galaxy Stone Co., Limited</div>
+<div class="sf-legal-links">
+<a href="#">Privacy</a><a href="#">Terms</a>
+<span class="sf-made">Crafted in Regong &middot; Shenzhen &middot; Hong Kong</span>
+</div>
+</div>
+
+</div>
+</footer>
+
+</div></div></div></main></div></div>
+
+<script src="js/main.js"></script>
+<script src="js/blog.js"></script>
+</body>
+</html>
