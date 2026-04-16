@@ -558,24 +558,7 @@
   .ah-banks-stats{gap:3rem;padding:2.6rem 0;margin-bottom:4rem}
   .ah-banks-stat-num{font-size:clamp(3.4rem,12vw,4.8rem)}
   .ah-banks-stat-label{font-size:.9rem;letter-spacing:.15em}
-  /* Mobile: horizontal swipe carousel instead of grid */
-  .ah-banks-grid{
-    display:flex;grid-template-columns:none;gap:1.2rem;
-    border:none;
-    overflow-x:auto;overflow-y:hidden;
-    scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;-ms-overflow-style:none;
-    padding:.5rem 2.4rem;margin:0 -2.4rem;
-    scroll-padding-left:2.4rem;
-  }
-  .ah-banks-grid::-webkit-scrollbar{display:none}
-  .ah-banks-card{
-    flex:0 0 68%;scroll-snap-align:center;aspect-ratio:16/9;
-    border:1px solid color-mix(in srgb,var(--color-cream) 14%,transparent);
-    padding:1.6rem 2rem;
-  }
-  .ah-banks-card:hover{background:transparent}
+  /* Bank grid carousel rule is defined in the bank section itself (later in source) */
   .ah-banks-foot{margin-top:3.6rem;font-size:.85rem;letter-spacing:.1em;line-height:1.8}
   /* Swipe hint */
   .ah-banks-hint{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:2rem;font-family:var(--font-f-aeonik-mono);font-size:.85rem;letter-spacing:.18em;text-transform:uppercase;color:color-mix(in srgb,var(--color-cream) 40%,transparent)}
@@ -613,8 +596,8 @@
   .ah-stamp--md .ah-stamp-inner{width:8rem}
   .ah-stamp--sm .ah-stamp-inner{width:7rem}
   .ah-stack-body,.ah-banks-inner{padding-left:2rem;padding-right:2rem}
-  /* Bank logos: allow 1-col on tiny screens */
-  .ah-banks-grid{grid-template-columns:1fr}
+  /* Bank carousel slides show slightly wider on tiny screens */
+  .ah-banks-card{flex:0 0 78%!important}
 }
 
 /* Tablet fine-tune (600-900px) */
@@ -1065,12 +1048,19 @@ Masters Quzhi and Zhaxijiancuo at work — a single Thangka takes 15 days or mor
 
 /* Logo grid — minimal editorial style with hairline dividers, monochrome logos */
 .ah-banks-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid color-mix(in srgb,var(--color-cream) 14%,transparent);border-left:1px solid color-mix(in srgb,var(--color-cream) 14%,transparent)}
-@media(max-width:900px){.ah-banks-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.ah-banks-grid{grid-template-columns:1fr}}
+@media(max-width:900px)and(min-width:601px){.ah-banks-grid{grid-template-columns:repeat(2,1fr)}}
 
 .ah-banks-card{position:relative;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;padding:3.6rem 5rem;overflow:hidden;border-right:1px solid color-mix(in srgb,var(--color-cream) 14%,transparent);border-bottom:1px solid color-mix(in srgb,var(--color-cream) 14%,transparent);transition:background .5s}
 .ah-banks-card:hover{background:color-mix(in srgb,var(--color-gold) 7%,transparent)}
-@media(max-width:900px){.ah-banks-card{padding:2.4rem 3rem;aspect-ratio:5/3}}
+@media(max-width:900px)and(min-width:601px){.ah-banks-card{padding:2.4rem 3rem;aspect-ratio:5/3}}
+
+/* Mobile: horizontal swipe carousel (≤600px) */
+@media(max-width:600px){
+  .ah-banks-grid{display:flex!important;grid-template-columns:none!important;gap:1.2rem;border:none;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;padding:.5rem 2.4rem;margin:0 -2.4rem;scroll-padding-left:2.4rem}
+  .ah-banks-grid::-webkit-scrollbar{display:none}
+  .ah-banks-card{flex:0 0 68%!important;scroll-snap-align:center;aspect-ratio:16/9;border:1px solid color-mix(in srgb,var(--color-cream) 14%,transparent);padding:1.6rem 2rem}
+  .ah-banks-card:hover{background:transparent}
+}
 
 /* Logos: monochrome cream on black, subtle pop on hover */
 .ah-banks-card img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;filter:brightness(0) invert(1) opacity(.78);transition:filter .5s var(--ease-out-quart),transform .55s var(--ease-out-quart)}
